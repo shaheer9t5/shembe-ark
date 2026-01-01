@@ -113,7 +113,9 @@ export async function GET(request: NextRequest) {
     // Build search query
     let query: any = {};
     if (search) {
-      const searchRegex = new RegExp(search, 'i');
+      // Escape special regex characters to prevent errors
+      const escapedSearch = search.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const searchRegex = new RegExp(escapedSearch, 'i');
       query = {
         $or: [
           { firstName: searchRegex },
