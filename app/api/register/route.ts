@@ -105,27 +105,58 @@ export async function GET(request: NextRequest) {
     await connectDB();
     
     const { searchParams } = new URL(request.url);
-    const temple = searchParams.get('temple');
-    const province = searchParams.get('province');
+    const search = searchParams.get('search') || '';
+    const page = parseInt(searchParams.get('page') || '1', 10);
+    const limit = parseInt(searchParams.get('limit') || '10', 10);
+    const skip = (page - 1) * limit;
     
-    // Build query
-    let query = {};
-    if (temple) query = { ...query, temple: new RegExp(temple, 'i') };
-    if (province) query = { ...query, province };
+    // Build search query
+    let query: any = {};
+    if (search) {
+      const searchRegex = new RegExp(search, 'i');
+      query = {
+        $or: [
+          { firstName: searchRegex },
+          { surname: searchRegex },
+          { cellphone: searchRegex },
+          { email: searchRegex },
+          { address: searchRegex },
+          { suburb: searchRegex },
+          { province: searchRegex },
+          { temple: searchRegex }
+        ]
+      };
+    }
     
-    // Get users (limit to 100 for performance)
+    // Get total count for pagination
+    const totalUsers = await User.countDocuments(query);
+    
+    // Get paginated users
     const users = await User.find(query)
       .select('-__v') // Exclude version field
       .sort({ registrationDate: -1 })
-      .limit(100);
+      .skip(skip)
+      .limit(limit)
+      .lean(); // Use lean() for better performance
 
-    const totalUsers = await User.countDocuments(query);
+    // Convert _id and dates to strings for JSON serialization
+    const formattedUsers = users.map((user: any) => ({
+      ...user,
+      _id: user._id.toString(),
+      registrationDate: user.registrationDate.toISOString()
+    }));
+
+    const totalPages = Math.ceil(totalUsers / limit);
 
     return NextResponse.json({
       success: true,
-      users,
+      users: formattedUsers,
       total: totalUsers,
-      query
+      page,
+      limit,
+      totalPages,
+      hasNextPage: page < totalPages,
+      hasPrevPage: page > 1
     });
 
   } catch (error) {

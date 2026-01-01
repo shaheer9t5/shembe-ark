@@ -7,11 +7,15 @@ import { User } from '@/types';
 
 export default function AdminPage() {
   const [users, setUsers] = useState<User[]>([]);
-  const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [page, setPage] = useState(1);
+  const [totalUsers, setTotalUsers] = useState(0);
+  const [totalPages, setTotalPages] = useState(1);
+  const [hasNextPage, setHasNextPage] = useState(false);
+  const [hasPrevPage, setHasPrevPage] = useState(false);
   const router = useRouter();
 
   useEffect(() => {
@@ -25,14 +29,38 @@ export default function AdminPage() {
     fetchUsers();
   }, [router]);
 
+  // Debounce search
   useEffect(() => {
-    filterUsers();
-  }, [users, searchTerm]);
+    const timer = setTimeout(() => {
+      if (authenticated) {
+        setPage(1); // Reset to first page on new search
+        fetchUsers();
+      }
+    }, 500); // 500ms debounce
+
+    return () => clearTimeout(timer);
+  }, [searchTerm, authenticated]);
+
+  // Fetch users when page changes
+  useEffect(() => {
+    if (authenticated) {
+      fetchUsers();
+    }
+  }, [page, authenticated]);
 
   const fetchUsers = async () => {
     try {
       setLoading(true);
-      const response = await fetch('/api/register');
+      const params = new URLSearchParams({
+        page: page.toString(),
+        limit: '1'
+      });
+      
+      if (searchTerm) {
+        params.append('search', searchTerm);
+      }
+
+      const response = await fetch(`/api/register?${params.toString()}`);
       const data = await response.json();
 
       if (!response.ok) {
@@ -40,6 +68,10 @@ export default function AdminPage() {
       }
 
       setUsers(data.users || []);
+      setTotalUsers(data.total || 0);
+      setTotalPages(data.totalPages || 1);
+      setHasNextPage(data.hasNextPage || false);
+      setHasPrevPage(data.hasPrevPage || false);
       setError('');
     } catch (error: any) {
       console.error('Error fetching users:', error);
@@ -47,27 +79,6 @@ export default function AdminPage() {
     } finally {
       setLoading(false);
     }
-  };
-
-  const filterUsers = () => {
-    let filtered = users;
-
-    // Simple search filter
-    if (searchTerm) {
-      const search = searchTerm.toLowerCase();
-      filtered = filtered.filter(user => 
-        user.firstName.toLowerCase().includes(search) ||
-        user.surname.toLowerCase().includes(search) ||
-        user.cellphone.includes(search) ||
-        user.email?.toLowerCase().includes(search) ||
-        user.address.toLowerCase().includes(search) ||
-        user.suburb.toLowerCase().includes(search) ||
-        user.temple.toLowerCase().includes(search) ||
-        user.province.toLowerCase().includes(search)
-      );
-    }
-
-    setFilteredUsers(filtered);
   };
 
   const formatDate = (dateString: string) => {
@@ -80,31 +91,53 @@ export default function AdminPage() {
     });
   };
 
-  const exportToCSV = () => {
-    const headers = ['First Name', 'Surname', 'Cellphone', 'Email', 'Address', 'Suburb', 'Province', 'Temple', 'Registration Date'];
-    const csvData = filteredUsers.map(user => [
-      user.firstName,
-      user.surname,
-      `+27${user.cellphone}`,
-      user.email || '',
-      user.address,
-      user.suburb,
-      user.province,
-      user.temple,
-      formatDate(user.registrationDate)
-    ]);
+  const exportToCSV = async () => {
+    try {
+      // Fetch all users matching the search (no pagination for export)
+      const params = new URLSearchParams({
+        page: '1',
+        limit: '10000' // Large limit to get all results
+      });
+      
+      if (searchTerm) {
+        params.append('search', searchTerm);
+      }
 
-    const csvContent = [headers, ...csvData]
-      .map(row => row.map(cell => `"${cell}"`).join(','))
-      .join('\n');
+      const response = await fetch(`/api/register?${params.toString()}`);
+      const data = await response.json();
 
-    const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `mymtn-registrations-${new Date().toISOString().split('T')[0]}.csv`;
-    a.click();
-    window.URL.revokeObjectURL(url);
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to fetch users for export');
+      }
+
+      const headers = ['First Name', 'Surname', 'Cellphone', 'Email', 'Address', 'Suburb', 'Province', 'Temple', 'Registration Date'];
+      const csvData = data.users.map((user: User) => [
+        user.firstName,
+        user.surname,
+        `+27${user.cellphone}`,
+        user.email || '',
+        user.address,
+        user.suburb,
+        user.province,
+        user.temple,
+        formatDate(user.registrationDate)
+      ]);
+
+      const csvContent = [headers, ...csvData]
+        .map(row => row.map((cell: string) => `"${cell}"`).join(','))
+        .join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `mymtn-registrations-${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error: any) {
+      console.error('Error exporting CSV:', error);
+      alert('Failed to export CSV. Please try again.');
+    }
   };
 
   const handleLogout = () => {
@@ -132,23 +165,12 @@ export default function AdminPage() {
                 <h1 className="text-2xl sm:text-3xl font-bold text-black mb-2">Admin Dashboard</h1>
                 <p className="text-sm sm:text-base text-black">View and manage myMTN registrations</p>
               </div>
-              <div className="flex gap-3">
-                <Link 
-                  href="/"
-                  className="inline-flex items-center px-4 py-2 border-2 border-black text-black font-medium rounded-lg hover:bg-gray-50 transition-colors text-sm"
-                >
-                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                  </svg>
-                  Back
-                </Link>
                 <button
                   onClick={handleLogout}
                   className="px-4 py-2 border-2 border-black text-black font-medium rounded-lg hover:bg-gray-50 transition-colors text-sm"
                 >
                   Logout
                 </button>
-              </div>
             </div>
           </div>
 
@@ -166,7 +188,7 @@ export default function AdminPage() {
               </div>
               <button
                 onClick={exportToCSV}
-                disabled={filteredUsers.length === 0}
+                disabled={users.length === 0}
                 className="px-6 py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
               >
                 Export CSV
@@ -191,7 +213,7 @@ export default function AdminPage() {
                   Try Again
                 </button>
               </div>
-            ) : filteredUsers.length === 0 ? (
+            ) : users.length === 0 ? (
               <div className="p-12 text-center">
                 <p className="text-black">No registrations found.</p>
               </div>
@@ -208,7 +230,7 @@ export default function AdminPage() {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    {filteredUsers.map((user) => (
+                    {users.map((user) => (
                       <tr key={user._id} className="hover:bg-gray-50">
                         <td className="px-4 py-3 whitespace-nowrap">
                           <div className="text-sm font-medium text-black">
@@ -239,10 +261,30 @@ export default function AdminPage() {
             )}
           </div>
 
-          {/* Footer */}
-          <div className="text-center mt-6 text-sm text-black">
-            <p>Showing {filteredUsers.length} of {users.length} total registrations</p>
-          </div>
+          {/* Pagination */}
+          {users.length > 0 && (
+            <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
+              <div className="text-sm text-black">
+                <p>Showing {users.length} of {totalUsers} total registrations</p>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={() => setPage(page - 1)}
+                  disabled={!hasPrevPage}
+                  className="px-4 py-2 border-2 border-black text-black font-medium rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Previous
+                </button>
+                <button
+                  onClick={() => setPage(page + 1)}
+                  disabled={!hasNextPage}
+                  className="px-4 py-2 border-2 border-black text-black font-medium rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  Next
+                </button>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
