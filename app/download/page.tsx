@@ -32,6 +32,20 @@ export default function DownloadPage() {
         {/* Right Side: Download Instructions */}
         <div className="w-full lg:w-[45%] flex items-center justify-center p-4 sm:p-6 lg:p-12">
           <div className="w-full max-w-lg">
+            {/* Mobile Header - Only show on mobile */}
+            <div className="text-center mb-6 sm:mb-8 lg:hidden">
+              <div className="flex justify-center mb-4 sm:mb-6">
+                <Image
+                  src="/shembe-ark.svg"
+                  alt="Shembe Ark"
+                  width={320}
+                  height={32}
+                  priority
+                  className="h-auto w-full max-w-[280px] sm:max-w-[320px]"
+                />
+              </div>
+            </div>
+
             {/* Header */}
             <div className="mb-8">
               <h1 className="text-xl sm:text-2xl font-bold text-black mb-3">Download myMTN App</h1>

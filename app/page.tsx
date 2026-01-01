@@ -176,18 +176,15 @@ export default function Home() {
                   className="h-auto w-full max-w-[280px] sm:max-w-[320px]"
                 />
               </div>
-              <h2 className="text-xl sm:text-2xl font-bold text-black mb-2">Free Internet Access</h2>
-              <p className="text-sm sm:text-base text-black px-4 sm:px-0">Register to receive complimentary internet access on your mobile device.</p>
-            </div>
-
-            {/* Desktop Header - Only show on desktop */}
-            <div className="hidden lg:block text-center mb-8">
-              <h2 className="text-2xl font-bold text-black mb-2">Free Internet Access</h2>
-              <p className="text-base text-black">Register to receive complimentary internet access on your mobile device.</p>
             </div>
 
           {/* Registration Form */}
           <div className="bg-white py-8 px-4 sm:px-8 md:px-10 xl:px-24">
+            {/* Header */}
+            <div className="mb-10">
+              <h2 className="text-xl sm:text-2xl font-bold text-black mb-2 text-left">Free Internet Access</h2>
+              <p className="text-sm sm:text-base text-black text-left">Register to receive complimentary internet access on your mobile device.</p>
+            </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Name Fields */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
