@@ -2,35 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-
-// South African provinces for filtering
-const SA_PROVINCES = [
-  'Eastern Cape',
-  'Free State', 
-  'Gauteng',
-  'KwaZulu-Natal',
-  'Limpopo',
-  'Mpumalanga',
-  'Northern Cape',
-  'North West',
-  'Western Cape'
-];
-
-interface User {
-  _id: string;
-  firstName: string;
-  surname: string;
-  cellphone: string;
-  email?: string;
-  address: string;
-  suburb: string;
-  province: string;
-  temple: string;
-  registrationDate: string;
-  isActive: boolean;
-  createdAt: string;
-  updatedAt: string;
-}
+import { User } from '@/types';
+import { SA_PROVINCES } from '@/constants';
 
 export default function AdminPage() {
   const [users, setUsers] = useState<User[]>([]);
@@ -142,11 +115,11 @@ export default function AdminPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
+    <div className="min-h-screen bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50">
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-blue-200/30 to-indigo-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-purple-200/30 to-blue-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-linear-to-br from-blue-200/30 to-indigo-200/30 rounded-full blur-3xl"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-linear-to-tr from-purple-200/30 to-blue-200/30 rounded-full blur-3xl"></div>
       </div>
 
       <div className="relative z-10 min-h-screen p-4">
@@ -159,7 +132,7 @@ export default function AdminPage() {
             </div>
             <Link 
               href="/"
-              className="inline-flex items-center px-6 py-3 bg-gradient-to-r from-gray-600 to-gray-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105"
+              className="inline-flex items-center px-6 py-3 bg-linear-to-br from-gray-600 to-gray-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105"
             >
               <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
@@ -239,7 +212,7 @@ export default function AdminPage() {
                 <button
                   onClick={exportToCSV}
                   disabled={filteredUsers.length === 0}
-                  className="w-full px-4 py-2 bg-gradient-to-r from-green-500 to-emerald-500 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full px-4 py-2 bg-linear-to-br from-green-500 to-emerald-500 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   Export CSV
                 </button>
