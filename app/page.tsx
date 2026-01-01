@@ -181,13 +181,13 @@ export default function Home() {
       <div className="flex min-h-screen">
         {/* Desktop Layout: Left Banner with Logo Overlay */}
         <div className="hidden lg:block lg:w-[55%] relative">
-          <Image
+        <Image
             src="/shembe-banner.png"
             alt="Shembe Banner"
             fill
             className="object-cover"
-            priority
-          />
+          priority
+        />
           {/* White Logo Overlay - Centered on Banner */}
           <div className="absolute inset-0 flex items-center justify-center">
             <Image
@@ -400,15 +400,32 @@ export default function Home() {
 
               {/* Terms Checkbox */}
               <div className="flex items-start pt-2">
-                <input
-                  type="checkbox"
-                  id="agreeToTerms"
-                  checked={agreeToTerms}
-                  onChange={(e) => setAgreeToTerms(e.target.checked)}
-                  className="mt-1 w-4 h-4 text-black border-black rounded focus:ring-black"
-                />
-                <label htmlFor="agreeToTerms" className="ml-2 text-sm text-black">
-                  By registering, you agree to our terms of service and privacy policy.
+                <div className="relative mt-1">
+                  <input
+                    type="checkbox"
+                    id="agreeToTerms"
+                    checked={agreeToTerms}
+                    onChange={(e) => setAgreeToTerms(e.target.checked)}
+                    className="w-5 h-5 border border-black rounded-full appearance-none cursor-pointer"
+                  />
+                  {agreeToTerms && (
+                    <svg
+                      className="absolute top-0 left-0 w-5 h-5 pointer-events-none"
+                      fill="none"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M6 10l2 2 6-6"
+                        stroke="black"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
+                </div>
+                <label htmlFor="agreeToTerms" className="ml-2 mt-0.75 text-sm text-black cursor-pointer">
+                  By registering, you agree to our <span className="underline">terms of service</span> and <span className="underline">privacy policy</span>.
                 </label>
               </div>
 
