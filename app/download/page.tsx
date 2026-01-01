@@ -34,14 +34,14 @@ export default function DownloadPage() {
           <div className="w-full max-w-lg">
             {/* Header */}
             <div className="mb-8">
-              <h1 className="text-xl sm:text-2xl font-bold text-black mb-3">Download the ShembeArk App</h1>
+              <h1 className="text-xl sm:text-2xl font-bold text-black mb-3">Download myMTN App</h1>
               <p className="text-xs sm:text-sm text-black">
-                Choose your platform below to download the ShembeArk app and start enjoying complimentary internet access.
+                Choose your platform below to download the <span className="font-semibold">myMTN</span> app and start enjoying complimentary internet access.
               </p>
             </div>
 
             {/* Android Section */}
-            <div className="relative mt-10">
+            <div className="relative mt-12">
               <Image
                 src="/android.svg"
                 alt="Android"
@@ -54,24 +54,24 @@ export default function DownloadPage() {
                 <div className="space-y-3 mb-5">
                   <div className="flex items-start">
                     <span className="text-black font-medium text-sm mr-2.5 mt-0.5 min-w-[18px]">1.</span>
-                    <p className="text-black text-xs sm:text-sm flex-1">Download the APK file from the SMS link sent to your phone</p>
+                    <p className="text-black text-xs sm:text-sm flex-1">Download the myMTN app APK using the button below</p>
                   </div>
                   <div className="flex items-start">
                     <span className="text-black font-medium text-sm mr-2.5 mt-0.5 min-w-[18px]">2.</span>
-                    <p className="text-black text-xs sm:text-sm flex-1">Enable "Install from Unknown Sources" if prompted</p>
+                    <p className="text-black text-xs sm:text-sm flex-1">Enable "Install from Unknown Sources" when prompted</p>
                   </div>
                   <div className="flex items-start">
                     <span className="text-black font-medium text-sm mr-2.5 mt-0.5 min-w-[18px]">3.</span>
-                    <p className="text-black text-xs sm:text-sm flex-1">Install the APK and launch the ShembeArk app</p>
+                    <p className="text-black text-xs sm:text-sm flex-1">Install and launch the myMTN app</p>
                   </div>
                   <div className="flex items-start">
                     <span className="text-black font-medium text-sm mr-2.5 mt-0.5 min-w-[18px]">4.</span>
-                    <p className="text-black text-xs sm:text-sm flex-1">Log in with your registered details</p>
+                    <p className="text-black text-xs sm:text-sm flex-1">You will receive an SMS as soon as service is enabled</p>
                   </div>
                 </div>
 
-                <button className="w-full bg-black text-white font-medium py-2.5 px-5 rounded text-xs sm:text-sm transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black">
-                  Download ShembeArk App
+                <button className="w-full bg-black text-white font-medium py-3.5 px-5 rounded-lg text-xs sm:text-sm transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black">
+                  Download myMTN for Android
                 </button>
               </div>
             </div>
@@ -92,19 +92,24 @@ export default function DownloadPage() {
                   <svg className="w-4 h-4 text-amber-600 mr-2 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.232 16.5c-.77.833.192 2.5 1.732 2.5z" />
                   </svg>
-                  <p className="text-amber-900 text-xs">Your phone's cellular data will be used to download this app.</p>
+                  <p className="text-amber-900 text-xs">You will require cellular data to download this app.</p>
                 </div>
 
-                <button className="w-full bg-black text-white font-medium py-2.5 px-5 rounded text-xs sm:text-sm transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black flex items-center justify-center gap-2">
+                <button className="w-full bg-black text-white font-medium py-2.5 px-5 rounded-lg text-xs sm:text-sm transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black flex items-center justify-center gap-2">
                   <Image
-                    src="/apple-store.png"
+                    src="/apple-white.svg"
                     alt="Download on the App Store"
                     width={90}
                     height={30}
-                    className="h-6 w-auto"
+                    className="h-5 w-auto"
                   />
-                  <span className="hidden sm:inline">Download on the App Store</span>
-                  <span className="sm:hidden">App Store</span>
+                  <Image
+                    src="/appstore-text.svg"
+                    alt="Download on the App Store"
+                    width={90}
+                    height={50}
+                    className="h-7 w-auto"
+                  />
                 </button>
               </div>
             </div>
