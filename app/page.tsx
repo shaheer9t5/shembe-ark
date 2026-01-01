@@ -178,26 +178,56 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white">
-      <div className="flex min-h-screen items-center justify-center p-4">
-        <div className="w-full max-w-2xl">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="flex justify-center mb-6">
-              <Image
-                src="/shembe-ark.svg"
-                alt="Shembe Ark"
-                width={320}
-                height={32}
-                priority
-                className="h-auto"
-              />
-            </div>
-            <h2 className="text-2xl font-bold text-black mb-2">Free Internet Access</h2>
-            <p className="text-base text-black">Register to receive complimentary internet access on your mobile device.</p>
+      <div className="flex min-h-screen">
+        {/* Desktop Layout: Left Banner with Logo Overlay */}
+        <div className="hidden lg:block lg:w-[55%] relative">
+          <Image
+            src="/shembe-banner.png"
+            alt="Shembe Banner"
+            fill
+            className="object-cover"
+            priority
+          />
+          {/* White Logo Overlay - Centered on Banner */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Image
+              src="/shembe-ark-white.svg"
+              alt="Shembe Ark"
+              width={320}
+              height={32}
+              priority
+              className="h-auto"
+            />
           </div>
+        </div>
+
+        {/* Right Side: Form (Desktop) / Full Content (Mobile) */}
+        <div className="w-full lg:w-[45%] flex items-center justify-center p-4 lg:p-8">
+          <div className="w-full max-w-2xl lg:max-w-none">
+            {/* Mobile Header - Only show on mobile */}
+            <div className="text-center mb-8 lg:hidden">
+              <div className="flex justify-center mb-6">
+                <Image
+                  src="/shembe-ark.svg"
+                  alt="Shembe Ark"
+                  width={320}
+                  height={32}
+                  priority
+                  className="h-auto"
+                />
+              </div>
+              <h2 className="text-2xl font-bold text-black mb-2">Free Internet Access</h2>
+              <p className="text-base text-black">Register to receive complimentary internet access on your mobile device.</p>
+            </div>
+
+            {/* Desktop Header - Only show on desktop */}
+            <div className="hidden lg:block text-center mb-8">
+              <h2 className="text-2xl font-bold text-black mb-2">Free Internet Access</h2>
+              <p className="text-base text-black">Register to receive complimentary internet access on your mobile device.</p>
+            </div>
 
           {/* Registration Form */}
-          <div className="bg-white p-8">
+          <div className="bg-white py-8 px-24">
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Name Fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -405,9 +435,10 @@ export default function Home() {
             </form>
           </div>
 
-          {/* Footer */}
-          <div className="text-center mt-8 text-sm text-gray-400">
-            <p>© 2026 | Shembe Ark | All rights reserved.</p>
+            {/* Footer */}
+            <div className="text-center mt-8 text-sm text-gray-400">
+              <p>© 2026 | ShembeArk | All rights reserved.</p>
+            </div>
           </div>
         </div>
       </div>
