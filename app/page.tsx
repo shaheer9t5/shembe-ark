@@ -176,22 +176,22 @@ export default function Home() {
         </div>
 
         {/* Right Side: Form (Desktop) / Full Content (Mobile) */}
-        <div className="w-full lg:w-[45%] flex items-center justify-center p-4 lg:p-8">
+        <div className="w-full lg:w-[45%] flex items-center justify-center p-4 sm:p-6 lg:p-8">
           <div className="w-full max-w-2xl lg:max-w-none">
             {/* Mobile Header - Only show on mobile */}
-            <div className="text-center mb-8 lg:hidden">
-              <div className="flex justify-center mb-6">
+            <div className="text-center mb-6 sm:mb-8 lg:hidden">
+              <div className="flex justify-center mb-4 sm:mb-6">
                 <Image
                   src="/shembe-ark.svg"
                   alt="Shembe Ark"
                   width={320}
                   height={32}
                   priority
-                  className="h-auto"
+                  className="h-auto w-full max-w-[280px] sm:max-w-[320px]"
                 />
               </div>
-              <h2 className="text-2xl font-bold text-black mb-2">Free Internet Access</h2>
-              <p className="text-base text-black">Register to receive complimentary internet access on your mobile device.</p>
+              <h2 className="text-xl sm:text-2xl font-bold text-black mb-2">Free Internet Access</h2>
+              <p className="text-sm sm:text-base text-black px-4 sm:px-0">Register to receive complimentary internet access on your mobile device.</p>
             </div>
 
             {/* Desktop Header - Only show on desktop */}
@@ -201,17 +201,17 @@ export default function Home() {
             </div>
 
           {/* Registration Form */}
-          <div className="bg-white py-8 px-24">
+          <div className="bg-white py-8 px-4 sm:px-8 md:px-10 xl:px-24">
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Name Fields */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <input
                     type="text"
                     id="firstName"
                     value={formData.firstName}
                     onChange={(e) => handleInputChange('firstName', e.target.value)}
-                    className={`w-full px-4 py-3 rounded border border-black focus:outline-none focus:ring-1 focus:ring-black ${
+                    className={`w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black ${
                       errors.firstName 
                         ? 'border-red-500 bg-red-50' 
                         : 'bg-white'
@@ -229,7 +229,7 @@ export default function Home() {
                     id="surname"
                     value={formData.surname}
                     onChange={(e) => handleInputChange('surname', e.target.value)}
-                    className={`w-full px-4 py-3 rounded border border-black focus:outline-none focus:ring-1 focus:ring-black ${
+                    className={`w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black ${
                       errors.surname 
                         ? 'border-red-500 bg-red-50' 
                         : 'bg-white'
@@ -245,7 +245,7 @@ export default function Home() {
               {/* Cellphone */}
               <div>
                 <div className="flex">
-                  <div className="flex items-center px-4 py-3 bg-gray-800 text-white rounded-l border border-black">
+                  <div className="flex items-center px-3 sm:px-4 py-3 bg-gray-800 text-white rounded-l-lg border border-black text-sm sm:text-base">
                     <span className="font-medium">+27</span>
                   </div>
                   <input
@@ -258,7 +258,7 @@ export default function Home() {
                       handleInputChange('cellphone', value);
                     }}
                     maxLength={9}
-                    className={`flex-1 px-4 py-3 rounded-r border border-black focus:outline-none focus:ring-1 focus:ring-black ${
+                    className={`flex-1 px-4 py-3 rounded-r-lg border border-black focus:outline-none focus:ring-1 focus:ring-black ${
                       errors.cellphone 
                         ? 'border-red-500 bg-red-50' 
                         : 'bg-white'
@@ -278,7 +278,7 @@ export default function Home() {
                   id="email"
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  className={`w-full px-4 py-3 rounded border border-black focus:outline-none focus:ring-1 focus:ring-black ${
+                  className={`w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black ${
                     errors.email 
                       ? 'border-red-500 bg-red-50' 
                       : 'bg-white'
@@ -297,7 +297,7 @@ export default function Home() {
                   id="address"
                   value={formData.address}
                   onChange={(e) => handleInputChange('address', e.target.value)}
-                  className={`w-full px-4 py-3 rounded border border-black focus:outline-none focus:ring-1 focus:ring-black ${
+                  className={`w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black ${
                     errors.address 
                       ? 'border-red-500 bg-red-50' 
                       : 'bg-white'
@@ -310,14 +310,14 @@ export default function Home() {
               </div>
 
               {/* Location Details */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
                   <input
                     type="text"
                     id="suburb"
                     value={formData.suburb}
                     onChange={(e) => handleInputChange('suburb', e.target.value)}
-                    className={`w-full px-4 py-3 rounded border border-black focus:outline-none focus:ring-1 focus:ring-black ${
+                    className={`w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black ${
                       errors.suburb 
                         ? 'border-red-500 bg-red-50' 
                         : 'bg-white'
@@ -351,7 +351,7 @@ export default function Home() {
                   id="temple"
                   value={formData.temple}
                   onChange={(e) => handleInputChange('temple', e.target.value)}
-                  className={`w-full px-4 py-3 rounded border border-black focus:outline-none focus:ring-1 focus:ring-black ${
+                  className={`w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black ${
                     errors.temple 
                       ? 'border-red-500 bg-red-50' 
                       : 'bg-white'
@@ -389,17 +389,17 @@ export default function Home() {
                     </svg>
                   )}
                 </div>
-                <label htmlFor="agreeToTerms" className="ml-2 mt-0.75 text-sm text-black cursor-pointer">
+                <label htmlFor="agreeToTerms" className="ml-2 mt-0.75 text-xs sm:text-sm text-black cursor-pointer">
                   By registering, you agree to our <span className="underline">terms of service</span> and <span className="underline">privacy policy</span>.
                 </label>
               </div>
 
               {/* Buttons */}
-              <div className="flex space-x-4 pt-4">
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
                 <button
                   type="submit"
                   disabled={isSubmitting || !agreeToTerms}
-                  className="flex-1 px-6 py-3 bg-black text-white font-semibold rounded transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full sm:flex-1 px-6 py-3 bg-black text-white font-semibold rounded transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center">
@@ -418,7 +418,7 @@ export default function Home() {
           </div>
 
             {/* Footer */}
-            <div className="text-center mt-8 text-sm text-gray-400">
+            <div className="text-center mt-6 sm:mt-8 text-xs sm:text-sm text-gray-400 px-4">
               <p>© 2026 | ShembeArk | All rights reserved.</p>
             </div>
           </div>
