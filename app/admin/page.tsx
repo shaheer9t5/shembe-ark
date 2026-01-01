@@ -136,7 +136,7 @@ export default function AdminPage() {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `temple-registrations-${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `shembeark-registrations-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
   };
@@ -154,8 +154,8 @@ export default function AdminPage() {
           {/* Header */}
           <div className="flex justify-between items-center mb-8">
             <div>
-              <h1 className="text-4xl font-bold text-gray-800 mb-2">Registration Data</h1>
-              <p className="text-gray-600">Manage and view temple internet registrations</p>
+              <h1 className="text-4xl font-bold text-gray-800 mb-2">ShembeArk Registration Data</h1>
+              <p className="text-gray-600">Manage and view ShembeArk internet registrations</p>
             </div>
             <Link 
               href="/"

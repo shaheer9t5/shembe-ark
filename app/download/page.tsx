@@ -23,7 +23,7 @@ export default function DownloadPage() {
             </div>
             <h1 className="text-4xl font-bold text-gray-800 mb-4">Registration Successful!</h1>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              Choose your platform below to download the Temple Free Internet app and start enjoying complimentary internet access.
+              Choose your platform below to download the ShembeArk app and start enjoying complimentary internet access.
             </p>
           </div>
 
@@ -61,7 +61,7 @@ export default function DownloadPage() {
                   </div>
                   <div className="flex items-start">
                     <div className="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 mt-1 flex-shrink-0">3</div>
-                    <p className="text-gray-700">Install the APK and launch the app</p>
+                    <p className="text-gray-700">Install the APK and launch the ShembeArk app</p>
                   </div>
                   <div className="flex items-start">
                     <div className="bg-green-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 mt-1 flex-shrink-0">4</div>
@@ -103,7 +103,7 @@ export default function DownloadPage() {
                   </div>
                   <div className="flex items-start">
                     <div className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 mt-1 flex-shrink-0">2</div>
-                    <p className="text-gray-700">Search for "Temple Free Internet"</p>
+                    <p className="text-gray-700">Search for "ShembeArk"</p>
                   </div>
                   <div className="flex items-start">
                     <div className="bg-blue-500 text-white rounded-full w-8 h-8 flex items-center justify-center text-sm font-bold mr-4 mt-1 flex-shrink-0">3</div>

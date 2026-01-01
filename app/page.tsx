@@ -186,7 +186,7 @@ export default function Home() {
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v18m9-9H3" />
               </svg>
             </div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">Temple Free Internet</h1>
+            <h1 className="text-3xl font-bold text-gray-800 mb-2">ShembeArk</h1>
             <p className="text-gray-600">Register for complimentary internet access</p>
           </div>
 

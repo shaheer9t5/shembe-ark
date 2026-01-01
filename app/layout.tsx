@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Temple Free Internet - Registration",
-  description: "Register for complimentary internet access through your local temple. Free internet for the community.",
+  title: "ShembeArk - Registration",
+  description: "Register for complimentary internet access through ShembeArk. Free internet for the community.",
 };
 
 export default function RootLayout({
