@@ -86,7 +86,7 @@ export default function DownloadPage() {
                   className="absolute -top-[35px] left-[10px]"
                 />
               <div className="mb-8 border-2 border-dashed border-gray-300 rounded-lg p-5 sm:p-6 relative overflow-hidden bg-white">
-                <h2 className="text-base sm:text-lg font-bold text-black mb-5">iPhone Users</h2>
+                <h2 className="text-base sm:text-lg font-bold text-black mb-5">iOS Users</h2>
                 {/* Warning Message */}
                 <div className="bg-amber-50 border border-amber-300 rounded p-2.5 mb-5 flex items-start">
                   <svg className="w-4 h-4 text-amber-600 mr-2 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -110,15 +110,17 @@ export default function DownloadPage() {
             </div>
 
             {/* Back Button */}
-            <div className="mt-6 pt-5 border-t border-gray-300">
+            <div className="mt-6 pt-5 border-gray-300">
               <Link 
                 href="/"
-                className="inline-flex items-center text-black hover:text-gray-700 transition-colors text-xs"
+                className="flex justify-center items-center text-black hover:text-gray-700 transition-colors text-xs"
               >
-                <svg className="w-3.5 h-3.5 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                </svg>
-                <span>Register another user</span>
+                <div className="w-6 h-6 rounded-full border border-black flex items-center justify-center mr-2">
+                  <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+                </div>
+                <span className="font-semibold text-sm">Register another user</span>
               </Link>
             </div>
           </div>
