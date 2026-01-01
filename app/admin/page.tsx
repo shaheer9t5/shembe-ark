@@ -161,14 +161,16 @@ export default function AdminPage() {
         <div className="max-w-7xl mx-auto">
           {/* Logo */}
           <div className="text-center mb-8">
-            <Image
-              src="/shembe-ark.svg"
-              alt="Shembe Ark"
-              width={400}
-              height={40}
-              priority
-              className="h-auto w-auto max-w-[400px] mx-auto"
-            />
+            <Link href="/" className="inline-block">
+              <Image
+                src="/shembe-ark.svg"
+                alt="Shembe Ark"
+                width={400}
+                height={40}
+                priority
+                className="h-auto w-auto max-w-[400px] mx-auto cursor-pointer"
+              />
+            </Link>
           </div>
 
           {/* Header */}

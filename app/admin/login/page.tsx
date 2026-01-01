@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import Image from 'next/image';
 
 export default function AdminLoginPage() {
@@ -29,14 +30,16 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         {/* Logo */}
         <div className="text-center mb-8">
-          <Image
-            src="/shembe-ark.svg"
-            alt="Shembe Ark"
-            width={320}
-            height={32}
-            priority
-            className="h-auto w-full max-w-[280px] mx-auto"
-          />
+          <Link href="/" className="inline-block">
+            <Image
+              src="/shembe-ark.svg"
+              alt="Shembe Ark"
+              width={320}
+              height={32}
+              priority
+              className="h-auto w-full max-w-[280px] mx-auto cursor-pointer"
+            />
+          </Link>
         </div>
 
         {/* Login Form */}
