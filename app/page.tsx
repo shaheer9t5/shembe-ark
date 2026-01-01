@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 
 // South African provinces
 const SA_PROVINCES = [
@@ -46,6 +47,7 @@ export default function Home() {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [agreeToTerms, setAgreeToTerms] = useState(true);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -90,6 +92,11 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!agreeToTerms) {
+      alert('Please agree to the terms of service and privacy policy to continue.');
+      return;
+    }
     
     if (!validateForm()) {
       return;
@@ -170,46 +177,42 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-orange-200/30 to-amber-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-yellow-200/30 to-orange-200/30 rounded-full blur-3xl"></div>
-      </div>
-      
-      <div className="relative z-10 flex min-h-screen items-center justify-center p-4">
+    <div className="min-h-screen bg-white">
+      <div className="flex min-h-screen items-center justify-center p-4">
         <div className="w-full max-w-2xl">
           {/* Header */}
           <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full mb-4 shadow-lg">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v18m9-9H3" />
-              </svg>
+            <div className="flex justify-center mb-6">
+              <Image
+                src="/shembe-ark.svg"
+                alt="Shembe Ark"
+                width={320}
+                height={32}
+                priority
+                className="h-auto"
+              />
             </div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">ShembeArk</h1>
-            <p className="text-gray-600">Register for complimentary internet access</p>
+            <h2 className="text-2xl font-bold text-black mb-2">Free Internet Access</h2>
+            <p className="text-base text-black">Register to receive complimentary internet access on your mobile device.</p>
           </div>
 
           {/* Registration Form */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="bg-white p-8">
+            <form onSubmit={handleSubmit} className="space-y-4">
               {/* Name Fields */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="firstName" className="block text-sm font-semibold text-gray-700 mb-2">
-                    First Name *
-                  </label>
                   <input
                     type="text"
                     id="firstName"
                     value={formData.firstName}
                     onChange={(e) => handleInputChange('firstName', e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
+                    className={`w-full px-4 py-3 rounded border border-black focus:outline-none focus:ring-1 focus:ring-black ${
                       errors.firstName 
-                        ? 'border-red-300 bg-red-50' 
-                        : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
+                        ? 'border-red-500 bg-red-50' 
+                        : 'bg-white'
                     }`}
-                    placeholder="Your first name"
+                    placeholder="First name"
                   />
                   {errors.firstName && (
                     <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
@@ -217,20 +220,17 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label htmlFor="surname" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Surname *
-                  </label>
                   <input
                     type="text"
                     id="surname"
                     value={formData.surname}
                     onChange={(e) => handleInputChange('surname', e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
+                    className={`w-full px-4 py-3 rounded border border-black focus:outline-none focus:ring-1 focus:ring-black ${
                       errors.surname 
-                        ? 'border-red-300 bg-red-50' 
-                        : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
+                        ? 'border-red-500 bg-red-50' 
+                        : 'bg-white'
                     }`}
-                    placeholder="Your surname"
+                    placeholder="Surname"
                   />
                   {errors.surname && (
                     <p className="text-red-500 text-sm mt-1">{errors.surname}</p>
@@ -240,12 +240,9 @@ export default function Home() {
 
               {/* Cellphone */}
               <div>
-                <label htmlFor="cellphone" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Cellphone Number *
-                </label>
                 <div className="flex">
-                  <div className="flex items-center px-4 py-3 bg-gray-100 border-2 border-r-0 border-gray-200 rounded-l-lg">
-                    <span className="text-gray-700 font-medium">+27</span>
+                  <div className="flex items-center px-4 py-3 bg-gray-800 text-white rounded-l border border-black">
+                    <span className="font-medium">+27</span>
                   </div>
                   <input
                     type="tel"
@@ -257,12 +254,12 @@ export default function Home() {
                       handleInputChange('cellphone', value);
                     }}
                     maxLength={9}
-                    className={`flex-1 px-4 py-3 rounded-r-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
+                    className={`flex-1 px-4 py-3 rounded-r border border-black focus:outline-none focus:ring-1 focus:ring-black ${
                       errors.cellphone 
-                        ? 'border-red-300 bg-red-50' 
-                        : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
+                        ? 'border-red-500 bg-red-50' 
+                        : 'bg-white'
                     }`}
-                    placeholder="821234567"
+                    placeholder="Phone number"
                   />
                 </div>
                 {errors.cellphone && (
@@ -272,20 +269,17 @@ export default function Home() {
 
               {/* Email */}
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Email Address <span className="text-gray-400 font-normal">(optional)</span>
-                </label>
                 <input
                   type="email"
                   id="email"
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
+                  className={`w-full px-4 py-3 rounded border border-black focus:outline-none focus:ring-1 focus:ring-black ${
                     errors.email 
-                      ? 'border-red-300 bg-red-50' 
-                      : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
+                      ? 'border-red-500 bg-red-50' 
+                      : 'bg-white'
                   }`}
-                  placeholder="your.email@example.com"
+                  placeholder="Email address"
                 />
                 {errors.email && (
                   <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -294,20 +288,17 @@ export default function Home() {
 
               {/* Residential Address */}
               <div>
-                <label htmlFor="address" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Residential Address *
-                </label>
                 <input
                   type="text"
                   id="address"
                   value={formData.address}
                   onChange={(e) => handleInputChange('address', e.target.value)}
-                  className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
+                  className={`w-full px-4 py-3 rounded border border-black focus:outline-none focus:ring-1 focus:ring-black ${
                     errors.address 
-                      ? 'border-red-300 bg-red-50' 
-                      : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
+                      ? 'border-red-500 bg-red-50' 
+                      : 'bg-white'
                   }`}
-                  placeholder="Your full residential address"
+                  placeholder="Residential address"
                 />
                 {errors.address && (
                   <p className="text-red-500 text-sm mt-1">{errors.address}</p>
@@ -317,20 +308,17 @@ export default function Home() {
               {/* Location Details */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="suburb" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Suburb *
-                  </label>
                   <input
                     type="text"
                     id="suburb"
                     value={formData.suburb}
                     onChange={(e) => handleInputChange('suburb', e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
+                    className={`w-full px-4 py-3 rounded border border-black focus:outline-none focus:ring-1 focus:ring-black ${
                       errors.suburb 
-                        ? 'border-red-300 bg-red-50' 
-                        : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
+                        ? 'border-red-500 bg-red-50' 
+                        : 'bg-white'
                     }`}
-                    placeholder="Your suburb"
+                    placeholder="Suburb"
                   />
                   {errors.suburb && (
                     <p className="text-red-500 text-sm mt-1">{errors.suburb}</p>
@@ -338,20 +326,17 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label htmlFor="province" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Province *
-                  </label>
                   <select
                     id="province"
                     value={formData.province}
                     onChange={(e) => handleInputChange('province', e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
+                    className={`w-full px-4 py-3 rounded border border-black focus:outline-none focus:ring-1 focus:ring-black ${
                       errors.province 
-                        ? 'border-red-300 bg-red-50' 
-                        : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
+                        ? 'border-red-500 bg-red-50' 
+                        : 'bg-white'
                     }`}
                   >
-                    <option value="">Select Province</option>
+                    <option value="">Province</option>
                     {SA_PROVINCES.map((province) => (
                       <option key={province} value={province}>
                         {province}
@@ -366,39 +351,43 @@ export default function Home() {
 
               {/* Temple */}
               <div>
-                <label htmlFor="temple" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Temple Name *
-                </label>
                 <input
                   type="text"
                   id="temple"
                   value={formData.temple}
                   onChange={(e) => handleInputChange('temple', e.target.value)}
-                  className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
+                  className={`w-full px-4 py-3 rounded border border-black focus:outline-none focus:ring-1 focus:ring-black ${
                     errors.temple 
-                      ? 'border-red-300 bg-red-50' 
-                      : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
+                      ? 'border-red-500 bg-red-50' 
+                      : 'bg-white'
                   }`}
-                  placeholder="Name of your associated temple"
+                  placeholder="Temple Name"
                 />
                 {errors.temple && (
                   <p className="text-red-500 text-sm mt-1">{errors.temple}</p>
                 )}
               </div>
 
+              {/* Terms Checkbox */}
+              <div className="flex items-start pt-2">
+                <input
+                  type="checkbox"
+                  id="agreeToTerms"
+                  checked={agreeToTerms}
+                  onChange={(e) => setAgreeToTerms(e.target.checked)}
+                  className="mt-1 w-4 h-4 text-black border-black rounded focus:ring-black"
+                />
+                <label htmlFor="agreeToTerms" className="ml-2 text-sm text-black">
+                  By registering, you agree to our terms of service and privacy policy.
+                </label>
+              </div>
+
               {/* Buttons */}
               <div className="flex space-x-4 pt-4">
                 <button
-                  type="button"
-                  onClick={handleCancel}
-                  className="flex-1 px-6 py-3 rounded-lg border-2 border-gray-300 text-gray-700 font-semibold transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500/20"
-                >
-                  Cancel
-                </button>
-                <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="flex-1 px-6 py-3 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg transition-all hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  disabled={isSubmitting || !agreeToTerms}
+                  className="flex-1 px-6 py-3 bg-black text-white font-semibold rounded transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center">
@@ -409,7 +398,7 @@ export default function Home() {
                       Processing...
                     </span>
                   ) : (
-                    'Submit Registration'
+                    'Register Yourself'
                   )}
                 </button>
               </div>
@@ -417,16 +406,8 @@ export default function Home() {
           </div>
 
           {/* Footer */}
-          <div className="text-center mt-8 text-sm text-gray-600">
-            <p>By registering, you agree to our terms of service and privacy policy.</p>
-            <div className="mt-4">
-              <Link 
-                href="/admin"
-                className="text-blue-600 hover:text-blue-800 underline text-xs"
-              >
-                Admin: View Registration Data
-              </Link>
-            </div>
+          <div className="text-center mt-8 text-sm text-gray-400">
+            <p>© 2026 | Shembe Ark | All rights reserved.</p>
           </div>
         </div>
       </div>
