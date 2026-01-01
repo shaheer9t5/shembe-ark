@@ -21,7 +21,7 @@ export default function Home() {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [agreeToTerms, setAgreeToTerms] = useState(true);
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
