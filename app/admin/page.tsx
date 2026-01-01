@@ -1,30 +1,33 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { User } from '@/types';
-import { SA_PROVINCES } from '@/constants';
 
 export default function AdminPage() {
   const [users, setUsers] = useState<User[]>([]);
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
+  const [authenticated, setAuthenticated] = useState(false);
   const [error, setError] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedProvince, setSelectedProvince] = useState('');
-  const [selectedTemple, setSelectedTemple] = useState('');
-  const [totalUsers, setTotalUsers] = useState(0);
-
-  // Get unique temples from users
-  const uniqueTemples = Array.from(new Set(users.map(user => user.temple))).sort();
+  const router = useRouter();
 
   useEffect(() => {
+    // Check authentication
+    const isAuthenticated = sessionStorage.getItem('adminAuth');
+    if (!isAuthenticated) {
+      router.push('/admin/login');
+      return;
+    }
+    setAuthenticated(true);
     fetchUsers();
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     filterUsers();
-  }, [users, searchTerm, selectedProvince, selectedTemple]);
+  }, [users, searchTerm]);
 
   const fetchUsers = async () => {
     try {
@@ -37,7 +40,6 @@ export default function AdminPage() {
       }
 
       setUsers(data.users || []);
-      setTotalUsers(data.total || 0);
       setError('');
     } catch (error: any) {
       console.error('Error fetching users:', error);
@@ -50,7 +52,7 @@ export default function AdminPage() {
   const filterUsers = () => {
     let filtered = users;
 
-    // Search filter
+    // Simple search filter
     if (searchTerm) {
       const search = searchTerm.toLowerCase();
       filtered = filtered.filter(user => 
@@ -60,18 +62,9 @@ export default function AdminPage() {
         user.email?.toLowerCase().includes(search) ||
         user.address.toLowerCase().includes(search) ||
         user.suburb.toLowerCase().includes(search) ||
-        user.temple.toLowerCase().includes(search)
+        user.temple.toLowerCase().includes(search) ||
+        user.province.toLowerCase().includes(search)
       );
-    }
-
-    // Province filter
-    if (selectedProvince) {
-      filtered = filtered.filter(user => user.province === selectedProvince);
-    }
-
-    // Temple filter
-    if (selectedTemple) {
-      filtered = filtered.filter(user => user.temple === selectedTemple);
     }
 
     setFilteredUsers(filtered);
@@ -109,194 +102,134 @@ export default function AdminPage() {
     const url = window.URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `shembeark-registrations-${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `mymtn-registrations-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
   };
 
-  return (
-    <div className="min-h-screen bg-linear-to-br from-blue-50 via-indigo-50 to-purple-50">
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-linear-to-br from-blue-200/30 to-indigo-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-linear-to-tr from-purple-200/30 to-blue-200/30 rounded-full blur-3xl"></div>
+  const handleLogout = () => {
+    sessionStorage.removeItem('adminAuth');
+    router.push('/admin/login');
+  };
+
+  // Don't render anything until authentication is checked
+  if (!authenticated) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <div className="animate-spin rounded-full h-8 w-8 border-2 border-black border-t-transparent"></div>
       </div>
+    );
+  }
 
-      <div className="relative z-10 min-h-screen p-4">
-        <div className="max-w-7xl mx-auto py-8">
+  return (
+    <div className="min-h-screen bg-white">
+      <div className="p-4 sm:p-6 lg:p-8">
+        <div className="max-w-7xl mx-auto">
           {/* Header */}
-          <div className="flex justify-between items-center mb-8">
-            <div>
-              <h1 className="text-4xl font-bold text-gray-800 mb-2">ShembeArk Registration Data</h1>
-              <p className="text-gray-600">Manage and view ShembeArk internet registrations</p>
-            </div>
-            <Link 
-              href="/"
-              className="inline-flex items-center px-6 py-3 bg-linear-to-br from-gray-600 to-gray-700 text-white font-semibold rounded-xl shadow-lg hover:shadow-xl transition-all hover:scale-105"
-            >
-              <svg className="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-              </svg>
-              Back to Registration
-            </Link>
-          </div>
-
-          {/* Stats Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
-              <h3 className="text-sm font-medium text-gray-500 mb-2">Total Registrations</h3>
-              <p className="text-3xl font-bold text-blue-600">{totalUsers}</p>
-            </div>
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
-              <h3 className="text-sm font-medium text-gray-500 mb-2">Filtered Results</h3>
-              <p className="text-3xl font-bold text-green-600">{filteredUsers.length}</p>
-            </div>
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
-              <h3 className="text-sm font-medium text-gray-500 mb-2">Unique Temples</h3>
-              <p className="text-3xl font-bold text-purple-600">{uniqueTemples.length}</p>
-            </div>
-            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20">
-              <h3 className="text-sm font-medium text-gray-500 mb-2">Active Users</h3>
-              <p className="text-3xl font-bold text-orange-600">{users.filter(u => u.isActive).length}</p>
-            </div>
-          </div>
-
-          {/* Filters */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-6 shadow-lg border border-white/20 mb-8">
-            <h2 className="text-xl font-bold text-gray-800 mb-4">Filters & Search</h2>
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              {/* Search */}
+          <div className="mb-8">
+            <div className="flex justify-between items-center mb-6">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Search</label>
-                <input
-                  type="text"
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search by name, phone, email..."
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                />
+                <h1 className="text-2xl sm:text-3xl font-bold text-black mb-2">Admin Dashboard</h1>
+                <p className="text-sm sm:text-base text-black">View and manage myMTN registrations</p>
               </div>
-
-              {/* Province Filter */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Province</label>
-                <select
-                  value={selectedProvince}
-                  onChange={(e) => setSelectedProvince(e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+              <div className="flex gap-3">
+                <Link 
+                  href="/"
+                  className="inline-flex items-center px-4 py-2 border-2 border-black text-black font-medium rounded-lg hover:bg-gray-50 transition-colors text-sm"
                 >
-                  <option value="">All Provinces</option>
-                  {SA_PROVINCES.map(province => (
-                    <option key={province} value={province}>{province}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Temple Filter */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Temple</label>
-                <select
-                  value={selectedTemple}
-                  onChange={(e) => setSelectedTemple(e.target.value)}
-                  className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
-                >
-                  <option value="">All Temples</option>
-                  {uniqueTemples.map(temple => (
-                    <option key={temple} value={temple}>{temple}</option>
-                  ))}
-                </select>
-              </div>
-
-              {/* Export Button */}
-              <div className="flex items-end">
+                  <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                  </svg>
+                  Back
+                </Link>
                 <button
-                  onClick={exportToCSV}
-                  disabled={filteredUsers.length === 0}
-                  className="w-full px-4 py-2 bg-linear-to-br from-green-500 to-emerald-500 text-white font-medium rounded-lg shadow-lg hover:shadow-xl transition-all hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                  onClick={handleLogout}
+                  className="px-4 py-2 border-2 border-black text-black font-medium rounded-lg hover:bg-gray-50 transition-colors text-sm"
                 >
-                  Export CSV
+                  Logout
                 </button>
               </div>
             </div>
           </div>
 
+          {/* Search and Export */}
+          <div className="border-2 border-black rounded-lg p-4 sm:p-6 mb-6">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <div className="flex-1">
+                <input
+                  type="text"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  placeholder="Search by name, phone, email, address, suburb, province, or temple..."
+                  className="w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black bg-white"
+                />
+              </div>
+              <button
+                onClick={exportToCSV}
+                disabled={filteredUsers.length === 0}
+                className="px-6 py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap"
+              >
+                Export CSV
+              </button>
+            </div>
+          </div>
+
           {/* Data Table */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-lg border border-white/20 overflow-hidden">
+          <div className="border-2 border-black rounded-lg overflow-hidden">
             {loading ? (
               <div className="p-12 text-center">
-                <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-                <p className="text-gray-600">Loading registrations...</p>
+                <div className="animate-spin rounded-full h-8 w-8 border-2 border-black border-t-transparent mx-auto mb-4"></div>
+                <p className="text-black text-sm">Loading registrations...</p>
               </div>
             ) : error ? (
               <div className="p-12 text-center">
-                <div className="text-red-500 mb-4">
-                  <svg className="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                  </svg>
-                </div>
-                <p className="text-red-600 font-medium mb-4">Error: {error}</p>
+                <p className="text-black font-medium mb-4">Error: {error}</p>
                 <button
                   onClick={fetchUsers}
-                  className="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
+                  className="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors"
                 >
                   Try Again
                 </button>
               </div>
             ) : filteredUsers.length === 0 ? (
               <div className="p-12 text-center">
-                <div className="text-gray-400 mb-4">
-                  <svg className="w-16 h-16 mx-auto mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-                  </svg>
-                </div>
-                <p className="text-gray-600">No registrations found matching your criteria.</p>
+                <p className="text-black">No registrations found.</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="bg-gray-50 border-b border-gray-200">
+                  <thead className="bg-black text-white">
                     <tr>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Contact</th>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Location</th>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Temple</th>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Registration</th>
-                      <th className="px-6 py-4 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Name</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Contact</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Location</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Temple</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Date</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     {filteredUsers.map((user) => (
                       <tr key={user._id} className="hover:bg-gray-50">
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div>
-                            <div className="text-sm font-medium text-gray-900">
-                              {user.firstName} {user.surname}
-                            </div>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="text-sm font-medium text-black">
+                            {user.firstName} {user.surname}
                           </div>
                         </td>
-                        <td className="px-6 py-4">
-                          <div className="text-sm text-gray-900">+27{user.cellphone}</div>
-                          <div className="text-sm text-gray-500">{user.email || 'No email'}</div>
+                        <td className="px-4 py-3">
+                          <div className="text-sm text-black">+27{user.cellphone}</div>
+                          {user.email && (
+                            <div className="text-xs text-gray-600 mt-1">{user.email}</div>
+                          )}
                         </td>
-                        <td className="px-6 py-4">
-                          <div className="text-sm text-gray-900">{user.suburb}</div>
-                          <div className="text-sm text-gray-500">{user.province}</div>
-                          <div className="text-xs text-gray-400 mt-1">{user.address}</div>
+                        <td className="px-4 py-3">
+                          <div className="text-sm text-black">{user.suburb}, {user.province}</div>
+                          <div className="text-xs text-gray-600 mt-1">{user.address}</div>
                         </td>
-                        <td className="px-6 py-4">
-                          <div className="text-sm font-medium text-gray-900">{user.temple}</div>
+                        <td className="px-4 py-3">
+                          <div className="text-sm text-black">{user.temple}</div>
                         </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm text-gray-900">{formatDate(user.registrationDate)}</div>
-                        </td>
-                        <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`inline-flex px-2 py-1 text-xs font-semibold rounded-full ${
-                            user.isActive 
-                              ? 'bg-green-100 text-green-800' 
-                              : 'bg-red-100 text-red-800'
-                          }`}>
-                            {user.isActive ? 'Active' : 'Inactive'}
-                          </span>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="text-sm text-black">{formatDate(user.registrationDate)}</div>
                         </td>
                       </tr>
                     ))}
@@ -307,8 +240,8 @@ export default function AdminPage() {
           </div>
 
           {/* Footer */}
-          <div className="text-center mt-8 text-sm text-gray-600">
-            <p>Showing {filteredUsers.length} of {totalUsers} total registrations</p>
+          <div className="text-center mt-6 text-sm text-black">
+            <p>Showing {filteredUsers.length} of {users.length} total registrations</p>
           </div>
         </div>
       </div>
