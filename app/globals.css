@@ -23,3 +23,15 @@ body {
   color: var(--foreground);
   font-family: var(--font-montserrat), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 }
+
+/* Style dropdown options */
+select option {
+  font-family: var(--font-montserrat), -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  padding: 8px 12px;
+  background: white;
+  color: black;
+}
+
+select:focus option:checked {
+  background: #f3f4f6;
+}
