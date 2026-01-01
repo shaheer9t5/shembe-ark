@@ -31,7 +31,7 @@ export default function DownloadPage() {
 
         {/* Right Side: Download Instructions */}
         <div className="w-full lg:w-[45%] flex items-center justify-center p-4 sm:p-6 lg:p-12">
-          <div className="w-full max-w-md">
+          <div className="w-full max-w-lg">
             {/* Header */}
             <div className="mb-8">
               <h1 className="text-xl sm:text-2xl font-bold text-black mb-3">Download the ShembeArk App</h1>
@@ -41,74 +41,72 @@ export default function DownloadPage() {
             </div>
 
             {/* Android Section */}
-            <div className="mb-8 border-2 border-dashed border-gray-300 rounded-lg p-5 sm:p-6">
-              <div className="flex items-center mb-5">
-                <Image
-                  src="/android.svg"
-                  alt="Android"
-                  width={24}
-                  height={24}
-                  className="mr-2"
-                />
-                <h2 className="text-base sm:text-lg font-bold text-black">Android Users</h2>
-              </div>
-              
-              <div className="space-y-3 mb-5">
-                <div className="flex items-start">
-                  <span className="text-black font-medium text-sm mr-2.5 mt-0.5 min-w-[18px]">1.</span>
-                  <p className="text-black text-xs sm:text-sm flex-1">Download the APK file from the SMS link sent to your phone</p>
+            <div className="relative mt-10">
+              <Image
+                src="/android.svg"
+                alt="Android"
+                width={48}
+                height={48}
+                className="absolute -top-[25px] left-[10px]"
+              />            
+              <div className="mb-8 border-2 border-dashed border-gray-300 rounded-lg p-5 sm:p-6 relative overflow-hidden">
+                <h2 className="text-base sm:text-lg font-bold text-black mb-5">Android Users</h2>
+                <div className="space-y-3 mb-5">
+                  <div className="flex items-start">
+                    <span className="text-black font-medium text-sm mr-2.5 mt-0.5 min-w-[18px]">1.</span>
+                    <p className="text-black text-xs sm:text-sm flex-1">Download the APK file from the SMS link sent to your phone</p>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-black font-medium text-sm mr-2.5 mt-0.5 min-w-[18px]">2.</span>
+                    <p className="text-black text-xs sm:text-sm flex-1">Enable "Install from Unknown Sources" if prompted</p>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-black font-medium text-sm mr-2.5 mt-0.5 min-w-[18px]">3.</span>
+                    <p className="text-black text-xs sm:text-sm flex-1">Install the APK and launch the ShembeArk app</p>
+                  </div>
+                  <div className="flex items-start">
+                    <span className="text-black font-medium text-sm mr-2.5 mt-0.5 min-w-[18px]">4.</span>
+                    <p className="text-black text-xs sm:text-sm flex-1">Log in with your registered details</p>
+                  </div>
                 </div>
-                <div className="flex items-start">
-                  <span className="text-black font-medium text-sm mr-2.5 mt-0.5 min-w-[18px]">2.</span>
-                  <p className="text-black text-xs sm:text-sm flex-1">Enable "Install from Unknown Sources" if prompted</p>
-                </div>
-                <div className="flex items-start">
-                  <span className="text-black font-medium text-sm mr-2.5 mt-0.5 min-w-[18px]">3.</span>
-                  <p className="text-black text-xs sm:text-sm flex-1">Install the APK and launch the ShembeArk app</p>
-                </div>
-                <div className="flex items-start">
-                  <span className="text-black font-medium text-sm mr-2.5 mt-0.5 min-w-[18px]">4.</span>
-                  <p className="text-black text-xs sm:text-sm flex-1">Log in with your registered details</p>
-                </div>
-              </div>
 
-              <button className="w-full bg-black text-white font-medium py-2.5 px-5 rounded text-xs sm:text-sm transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black">
-                Download ShembeArk App
-              </button>
+                <button className="w-full bg-black text-white font-medium py-2.5 px-5 rounded text-xs sm:text-sm transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black">
+                  Download ShembeArk App
+                </button>
+              </div>
             </div>
 
             {/* iPhone Section */}
-            <div className="mb-8 border-2 border-dashed border-gray-300 rounded-lg p-5 sm:p-6">
-              <div className="flex items-center mb-5">
-                <Image
+            <div className='relative mt-12'>
+              <Image
                   src="/apple.svg"
                   alt="Apple"
-                  width={24}
-                  height={24}
-                  className="mr-2"
+                  width={48}
+                  height={48}
+                  className="absolute -top-[35px] left-[10px]"
                 />
-                <h2 className="text-base sm:text-lg font-bold text-black">iPhone Users</h2>
-              </div>
+              <div className="mb-8 border-2 border-dashed border-gray-300 rounded-lg p-5 sm:p-6 relative overflow-hidden bg-white">
+                <h2 className="text-base sm:text-lg font-bold text-black mb-5">iPhone Users</h2>
+                {/* Warning Message */}
+                <div className="bg-amber-50 border border-amber-300 rounded p-2.5 mb-5 flex items-start">
+                  <svg className="w-4 h-4 text-amber-600 mr-2 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.232 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  </svg>
+                  <p className="text-amber-900 text-xs">Your phone's cellular data will be used to download this app.</p>
+                </div>
 
-              {/* Warning Message */}
-              <div className="bg-amber-50 border border-amber-300 rounded p-2.5 mb-5 flex items-start">
-                <svg className="w-4 h-4 text-amber-600 mr-2 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.232 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                </svg>
-                <p className="text-amber-900 text-xs">Your phone's cellular data will be used to download this app.</p>
+                <button className="w-full bg-black text-white font-medium py-2.5 px-5 rounded text-xs sm:text-sm transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black flex items-center justify-center gap-2">
+                  <Image
+                    src="/apple-store.png"
+                    alt="Download on the App Store"
+                    width={90}
+                    height={30}
+                    className="h-6 w-auto"
+                  />
+                  <span className="hidden sm:inline">Download on the App Store</span>
+                  <span className="sm:hidden">App Store</span>
+                </button>
               </div>
-
-              <button className="w-full bg-black text-white font-medium py-2.5 px-5 rounded text-xs sm:text-sm transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black flex items-center justify-center gap-2">
-                <Image
-                  src="/apple-store.png"
-                  alt="Download on the App Store"
-                  width={90}
-                  height={30}
-                  className="h-6 w-auto"
-                />
-                <span className="hidden sm:inline">Download on the App Store</span>
-                <span className="sm:hidden">App Store</span>
-              </button>
             </div>
 
             {/* Back Button */}
