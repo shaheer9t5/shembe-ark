@@ -194,7 +194,7 @@ export default function Home() {
                     id="firstName"
                     value={formData.firstName}
                     onChange={(e) => handleInputChange('firstName', e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
+                    className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white dark:text-black ${
                       errors.firstName 
                         ? 'border-red-500' 
                         : 'border-black'
@@ -212,7 +212,7 @@ export default function Home() {
                     id="surname"
                     value={formData.surname}
                     onChange={(e) => handleInputChange('surname', e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
+                    className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white dark:text-black ${
                       errors.surname 
                         ? 'border-red-500' 
                         : 'border-black'
@@ -241,7 +241,7 @@ export default function Home() {
                       handleInputChange('cellphone', value);
                     }}
                     maxLength={9}
-                    className={`flex-1 px-4 py-3 rounded-r-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
+                    className={`flex-1 px-4 py-3 rounded-r-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white dark:text-black ${
                       errors.cellphone 
                         ? 'border-red-500' 
                         : 'border-black'
@@ -261,7 +261,7 @@ export default function Home() {
                   id="email"
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
+                  className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white dark:text-black ${
                     errors.email 
                       ? 'border-red-500' 
                       : 'border-black'
@@ -280,7 +280,7 @@ export default function Home() {
                   id="address"
                   value={formData.address}
                   onChange={(e) => handleInputChange('address', e.target.value)}
-                  className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
+                  className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white dark:text-black ${
                     errors.address 
                       ? 'border-red-500' 
                       : 'border-black'
@@ -300,7 +300,7 @@ export default function Home() {
                     id="suburb"
                     value={formData.suburb}
                     onChange={(e) => handleInputChange('suburb', e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
+                    className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white dark:text-black ${
                       errors.suburb 
                         ? 'border-red-500' 
                         : 'border-black'
@@ -334,7 +334,7 @@ export default function Home() {
                   id="temple"
                   value={formData.temple}
                   onChange={(e) => handleInputChange('temple', e.target.value)}
-                  className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
+                  className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white dark:text-black ${
                     errors.temple 
                       ? 'border-red-500' 
                       : 'border-black'
