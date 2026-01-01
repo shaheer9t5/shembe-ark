@@ -70,7 +70,7 @@ export default function DownloadPage() {
                   </div>
                 </div>
 
-                <button className="w-full bg-black text-white font-medium py-3.5 px-5 rounded-lg text-xs sm:text-sm transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black">
+                <button className="w-full bg-black text-white font-medium py-3.5 px-5 rounded-lg text-xs sm:text-sm transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black cursor-pointer">
                   Download myMTN for Android
                 </button>
               </div>
@@ -95,7 +95,7 @@ export default function DownloadPage() {
                   <p className="text-amber-900 text-xs">You will require cellular data to download this app.</p>
                 </div>
 
-                <button className="w-full bg-black text-white font-medium py-2.5 px-5 rounded-lg text-xs sm:text-sm transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black flex items-center justify-center gap-2">
+                <button className="w-full bg-black text-white font-medium py-2.5 px-5 rounded-lg text-xs sm:text-sm transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black flex items-center justify-center gap-2 cursor-pointer">
                   <Image
                     src="/apple-white.svg"
                     alt="Download on the App Store"
