@@ -42,8 +42,8 @@ export default function CustomDropdown({
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className={`w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black appearance-none cursor-pointer bg-white text-left flex items-center justify-between ${
-          error ? 'border-red-500 bg-red-50' : ''
+        className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black appearance-none cursor-pointer bg-white text-left flex items-center justify-between ${
+          error ? 'border-red-500' : 'border-black'
         } ${!value ? 'text-gray-500' : 'text-black'}`}
         style={{ fontFamily: 'var(--font-montserrat), -apple-system, BlinkMacSystemFont, sans-serif' }}
       >

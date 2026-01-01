@@ -136,20 +136,6 @@ export default function Home() {
     }
   };
 
-  const handleCancel = () => {
-    setFormData({
-      firstName: '',
-      surname: '',
-      cellphone: '',
-      email: '',
-      address: '',
-      suburb: '',
-      province: '',
-      temple: ''
-    });
-    setErrors({});
-  };
-
   return (
     <div className="min-h-screen bg-white">
       <div className="flex min-h-screen">
@@ -211,10 +197,10 @@ export default function Home() {
                     id="firstName"
                     value={formData.firstName}
                     onChange={(e) => handleInputChange('firstName', e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black ${
+                    className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
                       errors.firstName 
-                        ? 'border-red-500 bg-red-50' 
-                        : 'bg-white'
+                        ? 'border-red-500' 
+                        : 'border-black'
                     }`}
                     placeholder="First name"
                   />
@@ -229,10 +215,10 @@ export default function Home() {
                     id="surname"
                     value={formData.surname}
                     onChange={(e) => handleInputChange('surname', e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black ${
+                    className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
                       errors.surname 
-                        ? 'border-red-500 bg-red-50' 
-                        : 'bg-white'
+                        ? 'border-red-500' 
+                        : 'border-black'
                     }`}
                     placeholder="Surname"
                   />
@@ -258,10 +244,10 @@ export default function Home() {
                       handleInputChange('cellphone', value);
                     }}
                     maxLength={9}
-                    className={`flex-1 px-4 py-3 rounded-r-lg border border-black focus:outline-none focus:ring-1 focus:ring-black ${
+                    className={`flex-1 px-4 py-3 rounded-r-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
                       errors.cellphone 
-                        ? 'border-red-500 bg-red-50' 
-                        : 'bg-white'
+                        ? 'border-red-500' 
+                        : 'border-black'
                     }`}
                     placeholder="Phone number"
                   />
@@ -278,12 +264,12 @@ export default function Home() {
                   id="email"
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  className={`w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black ${
+                  className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
                     errors.email 
-                      ? 'border-red-500 bg-red-50' 
-                      : 'bg-white'
+                      ? 'border-red-500' 
+                      : 'border-black'
                   }`}
-                  placeholder="Email address"
+                  placeholder="Email (optional)"
                 />
                 {errors.email && (
                   <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -297,10 +283,10 @@ export default function Home() {
                   id="address"
                   value={formData.address}
                   onChange={(e) => handleInputChange('address', e.target.value)}
-                  className={`w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black ${
+                  className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
                     errors.address 
-                      ? 'border-red-500 bg-red-50' 
-                      : 'bg-white'
+                      ? 'border-red-500' 
+                      : 'border-black'
                   }`}
                   placeholder="Residential address"
                 />
@@ -317,10 +303,10 @@ export default function Home() {
                     id="suburb"
                     value={formData.suburb}
                     onChange={(e) => handleInputChange('suburb', e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black ${
+                    className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
                       errors.suburb 
-                        ? 'border-red-500 bg-red-50' 
-                        : 'bg-white'
+                        ? 'border-red-500' 
+                        : 'border-black'
                     }`}
                     placeholder="Suburb"
                   />
@@ -351,10 +337,10 @@ export default function Home() {
                   id="temple"
                   value={formData.temple}
                   onChange={(e) => handleInputChange('temple', e.target.value)}
-                  className={`w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black ${
+                  className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
                     errors.temple 
-                      ? 'border-red-500 bg-red-50' 
-                      : 'bg-white'
+                      ? 'border-red-500' 
+                      : 'border-black'
                   }`}
                   placeholder="Temple Name"
                 />
@@ -399,15 +385,15 @@ export default function Home() {
                 <button
                   type="submit"
                   disabled={isSubmitting || !agreeToTerms}
-                  className="w-full sm:flex-1 px-6 py-3 bg-black text-white font-semibold rounded transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-full sm:flex-1 px-6 py-3 bg-black text-white font-semibold rounded-lg transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center">
                       <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      Processing...
+                      Registering...
                     </span>
                   ) : (
                     'Register Yourself'
