@@ -2,35 +2,10 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-
-// South African provinces
-const SA_PROVINCES = [
-  'Eastern Cape',
-  'Free State',
-  'Gauteng',
-  'KwaZulu-Natal',
-  'Limpopo',
-  'Mpumalanga',
-  'Northern Cape',
-  'North West',
-  'Western Cape'
-];
-
-interface FormData {
-  firstName: string;
-  surname: string;
-  cellphone: string;
-  email: string;
-  address: string;
-  suburb: string;
-  province: string;
-  temple: string;
-}
-
-interface FormErrors {
-  [key: string]: string;
-}
+import Image from 'next/image';
+import CustomDropdown from '@/components/CustomDropdown';
+import { FormData, FormErrors } from '@/types';
+import { SA_PROVINCES } from '@/constants';
 
 export default function Home() {
   const router = useRouter();
@@ -46,6 +21,7 @@ export default function Home() {
   });
   const [errors, setErrors] = useState<FormErrors>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [agreeToTerms, setAgreeToTerms] = useState(false);
 
   const validateForm = (): boolean => {
     const newErrors: FormErrors = {};
@@ -90,6 +66,11 @@ export default function Home() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (!agreeToTerms) {
+      alert('Please agree to the terms of service and privacy policy to continue.');
+      return;
+    }
     
     if (!validateForm()) {
       return;
@@ -155,61 +136,70 @@ export default function Home() {
     }
   };
 
-  const handleCancel = () => {
-    setFormData({
-      firstName: '',
-      surname: '',
-      cellphone: '',
-      email: '',
-      address: '',
-      suburb: '',
-      province: '',
-      temple: ''
-    });
-    setErrors({});
-  };
-
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50">
-      {/* Decorative background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-gradient-to-br from-orange-200/30 to-amber-200/30 rounded-full blur-3xl"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-gradient-to-tr from-yellow-200/30 to-orange-200/30 rounded-full blur-3xl"></div>
-      </div>
-      
-      <div className="relative z-10 flex min-h-screen items-center justify-center p-4">
-        <div className="w-full max-w-2xl">
-          {/* Header */}
-          <div className="text-center mb-8">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full mb-4 shadow-lg">
-              <svg className="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 3v18m9-9H3" />
-              </svg>
-            </div>
-            <h1 className="text-3xl font-bold text-gray-800 mb-2">ShembeArk</h1>
-            <p className="text-gray-600">Register for complimentary internet access</p>
+    <div className="min-h-screen bg-white">
+      <div className="flex min-h-screen">
+        {/* Desktop Layout: Left Banner with Logo Overlay */}
+        <div className="hidden lg:block lg:w-[55%] relative">
+        <Image
+            src="/shembe-banner.png"
+            alt="Shembe Banner"
+            fill
+            className="object-cover"
+          priority
+        />
+          {/* White Logo Overlay - Centered on Banner */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <Image
+              src="/shembe-ark-white.svg"
+              alt="Shembe Ark"
+              width={320}
+              height={32}
+              priority
+              className="h-auto"
+            />
           </div>
+        </div>
+
+        {/* Right Side: Form (Desktop) / Full Content (Mobile) */}
+        <div className="w-full lg:w-[45%] flex items-center justify-center p-4 sm:p-6 lg:p-8">
+          <div className="w-full max-w-2xl lg:max-w-none">
+            {/* Mobile Header - Only show on mobile */}
+            <div className="text-center mb-6 sm:mb-8 lg:hidden">
+              <div className="flex justify-center mb-4 sm:mb-6">
+                <Image
+                  src="/shembe-ark.svg"
+                  alt="Shembe Ark"
+                  width={320}
+                  height={32}
+                  priority
+                  className="h-auto w-full max-w-[280px] sm:max-w-[320px]"
+                />
+              </div>
+            </div>
 
           {/* Registration Form */}
-          <div className="bg-white/80 backdrop-blur-sm rounded-2xl shadow-xl border border-white/20 p-8">
-            <form onSubmit={handleSubmit} className="space-y-6">
+          <div className="bg-white py-8 px-4 sm:px-8 md:px-10 xl:px-24">
+            {/* Header */}
+            <div className="mb-10">
+              <h2 className="text-xl sm:text-2xl font-bold text-black mb-2 text-left">Free Internet Access</h2>
+              <p className="text-sm sm:text-base text-black text-left">Register to receive complimentary internet access on your mobile device.</p>
+            </div>
+            <form onSubmit={handleSubmit} className="space-y-4">
               {/* Name Fields */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="firstName" className="block text-sm font-semibold text-gray-700 mb-2">
-                    First Name *
-                  </label>
                   <input
                     type="text"
                     id="firstName"
                     value={formData.firstName}
                     onChange={(e) => handleInputChange('firstName', e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
+                    className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
                       errors.firstName 
-                        ? 'border-red-300 bg-red-50' 
-                        : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
+                        ? 'border-red-500' 
+                        : 'border-black'
                     }`}
-                    placeholder="Your first name"
+                    placeholder="First name"
                   />
                   {errors.firstName && (
                     <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
@@ -217,20 +207,17 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label htmlFor="surname" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Surname *
-                  </label>
                   <input
                     type="text"
                     id="surname"
                     value={formData.surname}
                     onChange={(e) => handleInputChange('surname', e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
+                    className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
                       errors.surname 
-                        ? 'border-red-300 bg-red-50' 
-                        : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
+                        ? 'border-red-500' 
+                        : 'border-black'
                     }`}
-                    placeholder="Your surname"
+                    placeholder="Surname"
                   />
                   {errors.surname && (
                     <p className="text-red-500 text-sm mt-1">{errors.surname}</p>
@@ -240,12 +227,9 @@ export default function Home() {
 
               {/* Cellphone */}
               <div>
-                <label htmlFor="cellphone" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Cellphone Number *
-                </label>
                 <div className="flex">
-                  <div className="flex items-center px-4 py-3 bg-gray-100 border-2 border-r-0 border-gray-200 rounded-l-lg">
-                    <span className="text-gray-700 font-medium">+27</span>
+                  <div className="flex items-center px-3 sm:px-4 py-3 bg-gray-800 text-white rounded-l-lg border border-black text-sm sm:text-base">
+                    <span className="font-medium">+27</span>
                   </div>
                   <input
                     type="tel"
@@ -257,12 +241,12 @@ export default function Home() {
                       handleInputChange('cellphone', value);
                     }}
                     maxLength={9}
-                    className={`flex-1 px-4 py-3 rounded-r-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
+                    className={`flex-1 px-4 py-3 rounded-r-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
                       errors.cellphone 
-                        ? 'border-red-300 bg-red-50' 
-                        : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
+                        ? 'border-red-500' 
+                        : 'border-black'
                     }`}
-                    placeholder="821234567"
+                    placeholder="Phone number"
                   />
                 </div>
                 {errors.cellphone && (
@@ -272,20 +256,17 @@ export default function Home() {
 
               {/* Email */}
               <div>
-                <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Email Address <span className="text-gray-400 font-normal">(optional)</span>
-                </label>
                 <input
                   type="email"
                   id="email"
                   value={formData.email}
                   onChange={(e) => handleInputChange('email', e.target.value)}
-                  className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
+                  className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
                     errors.email 
-                      ? 'border-red-300 bg-red-50' 
-                      : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
+                      ? 'border-red-500' 
+                      : 'border-black'
                   }`}
-                  placeholder="your.email@example.com"
+                  placeholder="Email (optional)"
                 />
                 {errors.email && (
                   <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -294,20 +275,17 @@ export default function Home() {
 
               {/* Residential Address */}
               <div>
-                <label htmlFor="address" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Residential Address *
-                </label>
                 <input
                   type="text"
                   id="address"
                   value={formData.address}
                   onChange={(e) => handleInputChange('address', e.target.value)}
-                  className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
+                  className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
                     errors.address 
-                      ? 'border-red-300 bg-red-50' 
-                      : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
+                      ? 'border-red-500' 
+                      : 'border-black'
                   }`}
-                  placeholder="Your full residential address"
+                  placeholder="Residential address"
                 />
                 {errors.address && (
                   <p className="text-red-500 text-sm mt-1">{errors.address}</p>
@@ -315,22 +293,19 @@ export default function Home() {
               </div>
 
               {/* Location Details */}
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="suburb" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Suburb *
-                  </label>
                   <input
                     type="text"
                     id="suburb"
                     value={formData.suburb}
                     onChange={(e) => handleInputChange('suburb', e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
+                    className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
                       errors.suburb 
-                        ? 'border-red-300 bg-red-50' 
-                        : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
+                        ? 'border-red-500' 
+                        : 'border-black'
                     }`}
-                    placeholder="Your suburb"
+                    placeholder="Suburb"
                   />
                   {errors.suburb && (
                     <p className="text-red-500 text-sm mt-1">{errors.suburb}</p>
@@ -338,26 +313,14 @@ export default function Home() {
                 </div>
 
                 <div>
-                  <label htmlFor="province" className="block text-sm font-semibold text-gray-700 mb-2">
-                    Province *
-                  </label>
-                  <select
+                  <CustomDropdown
                     id="province"
                     value={formData.province}
-                    onChange={(e) => handleInputChange('province', e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
-                      errors.province 
-                        ? 'border-red-300 bg-red-50' 
-                        : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
-                    }`}
-                  >
-                    <option value="">Select Province</option>
-                    {SA_PROVINCES.map((province) => (
-                      <option key={province} value={province}>
-                        {province}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(value) => handleInputChange('province', value)}
+                    options={SA_PROVINCES}
+                    placeholder="Province"
+                    error={errors.province}
+                  />
                   {errors.province && (
                     <p className="text-red-500 text-sm mt-1">{errors.province}</p>
                   )}
@@ -366,66 +329,80 @@ export default function Home() {
 
               {/* Temple */}
               <div>
-                <label htmlFor="temple" className="block text-sm font-semibold text-gray-700 mb-2">
-                  Temple Name *
-                </label>
                 <input
                   type="text"
                   id="temple"
                   value={formData.temple}
                   onChange={(e) => handleInputChange('temple', e.target.value)}
-                  className={`w-full px-4 py-3 rounded-lg border-2 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500/20 ${
+                  className={`w-full px-4 py-3 rounded-lg border focus:outline-none focus:ring-1 focus:ring-black bg-white ${
                     errors.temple 
-                      ? 'border-red-300 bg-red-50' 
-                      : 'border-gray-200 bg-white hover:border-orange-300 focus:border-orange-500'
+                      ? 'border-red-500' 
+                      : 'border-black'
                   }`}
-                  placeholder="Name of your associated temple"
+                  placeholder="Temple Name"
                 />
                 {errors.temple && (
                   <p className="text-red-500 text-sm mt-1">{errors.temple}</p>
                 )}
               </div>
 
+              {/* Terms Checkbox */}
+              <div className="flex items-start pt-2">
+                <div className="relative mt-1">
+                  <input
+                    type="checkbox"
+                    id="agreeToTerms"
+                    checked={agreeToTerms}
+                    onChange={(e) => setAgreeToTerms(e.target.checked)}
+                    className="w-5 h-5 border border-black rounded-full appearance-none cursor-pointer"
+                  />
+                  {agreeToTerms && (
+                    <svg
+                      className="absolute top-0 left-0 w-5 h-5 pointer-events-none"
+                      fill="none"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        d="M6 10l2 2 6-6"
+                        stroke="black"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
+                </div>
+                <label htmlFor="agreeToTerms" className="ml-2 mt-0.75 text-xs sm:text-sm text-black cursor-pointer">
+                  By registering, you agree to our <span className="underline">terms of service</span> and <span className="underline">privacy policy</span>.
+                </label>
+              </div>
+
               {/* Buttons */}
-              <div className="flex space-x-4 pt-4">
-                <button
-                  type="button"
-                  onClick={handleCancel}
-                  className="flex-1 px-6 py-3 rounded-lg border-2 border-gray-300 text-gray-700 font-semibold transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500/20"
-                >
-                  Cancel
-                </button>
+              <div className="flex flex-col sm:flex-row space-y-3 sm:space-y-0 sm:space-x-4 pt-4">
                 <button
                   type="submit"
-                  disabled={isSubmitting}
-                  className="flex-1 px-6 py-3 rounded-lg bg-gradient-to-r from-orange-500 to-amber-500 text-white font-semibold shadow-lg transition-all hover:shadow-xl hover:scale-105 focus:outline-none focus:ring-2 focus:ring-orange-500/20 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none"
+                  disabled={isSubmitting || !agreeToTerms}
+                  className="w-full sm:flex-1 px-6 py-3 bg-black text-white font-semibold rounded-lg transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isSubmitting ? (
                     <span className="flex items-center justify-center">
                       <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
+                        <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      Processing...
+                      Registering...
                     </span>
                   ) : (
-                    'Submit Registration'
+                    'Register Yourself'
                   )}
                 </button>
               </div>
             </form>
           </div>
 
-          {/* Footer */}
-          <div className="text-center mt-8 text-sm text-gray-600">
-            <p>By registering, you agree to our terms of service and privacy policy.</p>
-            <div className="mt-4">
-              <Link 
-                href="/admin"
-                className="text-blue-600 hover:text-blue-800 underline text-xs"
-              >
-                Admin: View Registration Data
-              </Link>
+            {/* Footer */}
+            <div className="text-center mt-6 sm:mt-8 text-xs sm:text-sm text-gray-400 px-4">
+              <p>© 2026 | ShembeArk | All rights reserved.</p>
             </div>
           </div>
         </div>
