@@ -3,8 +3,8 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
+import Link from 'next/link';
 import CustomDropdown from '@/components/CustomDropdown';
-import LanguageToggle from '@/components/LanguageToggle';
 import { useLanguage } from '@/context/LanguageContext';
 import { FormData, FormErrors } from '@/types';
 import { getTranslatedProvinces } from '@/constants';
@@ -156,14 +156,16 @@ export default function Home() {
         />
           {/* White Logo Overlay - Centered on Banner */}
           <div className="absolute inset-0 flex items-center justify-center">
-            <Image
-              src="/shembe-ark-white.svg"
-              alt="Shembe Ark"
-              width={320}
-              height={32}
-              priority
-              className="h-auto"
-            />
+            <Link href="https://shembeark.co.za/" rel="noopener noreferrer">
+              <Image
+                src="/shembe-ark-white.svg"
+                alt="Shembe Ark"
+                width={320}
+                height={32}
+                priority
+                className="h-auto cursor-pointer hover:opacity-80 transition-opacity"
+              />
+            </Link>
           </div>
         </div>
 
@@ -173,14 +175,16 @@ export default function Home() {
             {/* Mobile Header - Only show on mobile */}
             <div className="text-center mb-6 sm:mb-8 lg:hidden">
               <div className="flex justify-center mb-4 sm:mb-6">
-                <Image
-                  src="/shembe-ark.svg"
-                  alt="Shembe Ark"
-                  width={320}
-                  height={32}
-                  priority
-                  className="h-auto w-full max-w-[280px] sm:max-w-[320px]"
-                />
+                <Link href="https://shembeark.co.za/" rel="noopener noreferrer">
+                  <Image
+                    src="/shembe-ark.svg"
+                    alt="Shembe Ark"
+                    width={320}
+                    height={32}
+                    priority
+                    className="h-auto w-full max-w-[280px] sm:max-w-[320px] cursor-pointer hover:opacity-80 transition-opacity"
+                  />
+                </Link>
               </div>
             </div>
 

@@ -163,7 +163,7 @@ export default function AdminPage() {
         <div className="max-w-7xl mx-auto">
           {/* Logo */}
           <div className="text-center mb-8">
-            <Link href="/" className="inline-block">
+            <Link href="https://shembeark.co.za" className="inline-block">
               <Image
                 src="/shembe-ark.svg"
                 alt="Shembe Ark"
