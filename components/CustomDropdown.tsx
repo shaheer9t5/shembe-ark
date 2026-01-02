@@ -2,11 +2,16 @@
 
 import { useState, useEffect, useRef } from 'react';
 
+interface DropdownOption {
+  value: string;
+  label: string;
+}
+
 interface CustomDropdownProps {
   id: string;
   value: string;
   onChange: (value: string) => void;
-  options: readonly string[] | string[];
+  options: readonly string[] | string[] | DropdownOption[];
   placeholder: string;
   error?: string;
   className?: string;
@@ -35,7 +40,13 @@ export default function CustomDropdown({
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const selectedOption = value || placeholder;
+  // Handle both string array and object array formats
+  const isObjectArray = options.length > 0 && typeof options[0] === 'object';
+  const selectedOption = value 
+    ? (isObjectArray 
+        ? (options as DropdownOption[]).find(opt => opt.value === value)?.label || value
+        : value)
+    : placeholder;
 
   return (
     <div className={`relative ${className}`} ref={dropdownRef}>
@@ -65,22 +76,27 @@ export default function CustomDropdown({
 
       {isOpen && (
         <div className="absolute z-50 w-full mt-1 bg-white border border-black rounded shadow-lg max-h-60 overflow-auto">
-          {options.map((option) => (
-            <button
-              key={option}
-              type="button"
-              onClick={() => {
-                onChange(option);
-                setIsOpen(false);
-              }}
-              className={`w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors ${
-                value === option ? 'bg-gray-100 font-medium' : 'text-black'
-              }`}
-              style={{ fontFamily: 'var(--font-montserrat), -apple-system, BlinkMacSystemFont, sans-serif' }}
-            >
-              {option}
-            </button>
-          ))}
+          {options.map((option) => {
+            const optionValue = isObjectArray ? (option as DropdownOption).value : option as string;
+            const optionLabel = isObjectArray ? (option as DropdownOption).label : option as string;
+            
+            return (
+              <button
+                key={optionValue}
+                type="button"
+                onClick={() => {
+                  onChange(optionValue);
+                  setIsOpen(false);
+                }}
+                className={`w-full px-4 py-3 text-left hover:bg-gray-50 transition-colors ${
+                  value === optionValue ? 'bg-gray-100 font-medium' : 'text-black'
+                }`}
+                style={{ fontFamily: 'var(--font-montserrat), -apple-system, BlinkMacSystemFont, sans-serif' }}
+              >
+                {optionLabel}
+              </button>
+            );
+          })}
         </div>
       )}
     </div>
