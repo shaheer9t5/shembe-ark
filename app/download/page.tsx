@@ -11,7 +11,7 @@ export default function DownloadPage() {
     <div className="min-h-screen bg-white">
       <div className="flex min-h-screen">
         {/* Desktop Layout: Left Banner with Logo Overlay */}
-        <div className="hidden lg:block lg:w-[55%] relative">
+        <div className="hidden lg:block lg:w-[55vw] relative">
           <Image
             src="/shembe-banner.png"
             alt="Shembe Banner"
@@ -33,7 +33,7 @@ export default function DownloadPage() {
         </div>
 
         {/* Right Side: Download Instructions */}
-        <div className="w-full lg:w-[45%] flex items-center justify-center p-4 sm:p-6 lg:p-12">
+        <div className="w-full lg:w-[45vw] flex items-center justify-center p-4 sm:p-6 lg:p-12">
           <div className="w-full max-w-lg">
             {/* Mobile Header - Only show on mobile */}
             <div className="text-center mb-6 sm:mb-8 lg:hidden">
