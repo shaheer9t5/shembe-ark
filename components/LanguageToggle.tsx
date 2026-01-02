@@ -17,12 +17,12 @@ export default function LanguageToggle() {
   return (
     <button
       onClick={toggleLanguage}
-      className="flex items-center space-x-2 px-3 py-2 text-sm cursor-pointer text-gray-600 hover:text-gray-900 transition-colors duration-200 rounded-lg hover:bg-gray-50"
+      className="flex items-center space-x-1 sm:space-x-2 px-2 sm:px-3 py-1 sm:py-2 text-xs sm:text-sm cursor-pointer text-gray-600 hover:text-gray-900 transition-colors duration-200 rounded-lg hover:bg-gray-50"
       aria-label={`Switch to ${language === 'en' ? 'isiZulu' : 'English'}`}
     >
       {/* Globe Icon */}
       <svg
-        className="w-4 h-4"
+        className="w-3 h-3 sm:w-4 sm:h-4"
         fill="none"
         stroke="currentColor"
         viewBox="0 0 24 24"

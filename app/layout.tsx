@@ -26,9 +26,11 @@ export default function RootLayout({
         className={`${montserrat.variable} font-sans antialiased`}
       >
         <LanguageProvider>
-          {/* Language Toggle - Fixed Top Right for all pages */}
-          <div className="fixed top-4 right-4 z-50">
-            <LanguageToggle />
+          {/* Language Toggle - Top for all pages */}
+          <div className="relative z-50">
+            <div className="flex justify-end p-2 bg-white sm:p-0 sm:bg-transparent sm:absolute sm:top-4 sm:right-4">
+              <LanguageToggle />
+            </div>
           </div>
           {children}
         </LanguageProvider>
