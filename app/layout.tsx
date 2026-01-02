@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
+import { LanguageProvider } from "@/context/LanguageContext";
+import LanguageToggle from "@/components/LanguageToggle";
 
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -23,7 +25,13 @@ export default function RootLayout({
       <body
         className={`${montserrat.variable} font-sans antialiased`}
       >
-        {children}
+        <LanguageProvider>
+          {/* Language Toggle - Fixed Top Right for all pages */}
+          <div className="fixed top-4 right-4 z-50">
+            <LanguageToggle />
+          </div>
+          {children}
+        </LanguageProvider>
       </body>
     </html>
   );

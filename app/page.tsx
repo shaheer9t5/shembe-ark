@@ -4,11 +4,17 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import CustomDropdown from '@/components/CustomDropdown';
+import LanguageToggle from '@/components/LanguageToggle';
+import { useLanguage } from '@/context/LanguageContext';
 import { FormData, FormErrors } from '@/types';
-import { SA_PROVINCES } from '@/constants';
+import { getTranslatedProvinces } from '@/constants';
 
 export default function Home() {
   const router = useRouter();
+  const { t } = useLanguage();
+  
+  // Get translated province options
+  const translatedProvinces = getTranslatedProvinces(t);
   const [formData, setFormData] = useState<FormData>({
     firstName: '',
     surname: '',
@@ -27,37 +33,37 @@ export default function Home() {
     const newErrors: FormErrors = {};
 
     if (!formData.firstName.trim()) {
-      newErrors.firstName = 'First name is required';
+      newErrors.firstName = t('registration.validation.firstNameRequired');
     }
 
     if (!formData.surname.trim()) {
-      newErrors.surname = 'Surname is required';
+      newErrors.surname = t('registration.validation.surnameRequired');
     }
 
     if (!formData.cellphone.trim()) {
-      newErrors.cellphone = 'Cellphone number is required';
+      newErrors.cellphone = t('registration.validation.cellphoneRequired');
     } else if (!/^[6-8][0-9]{8}$/.test(formData.cellphone.replace(/\s/g, ''))) {
-      newErrors.cellphone = 'Please enter a valid 9-digit cellphone number';
+      newErrors.cellphone = t('registration.validation.cellphoneInvalid');
     }
 
     if (formData.email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
-      newErrors.email = 'Please enter a valid email address';
+      newErrors.email = t('registration.validation.emailInvalid');
     }
 
     if (!formData.address.trim()) {
-      newErrors.address = 'Residential address is required';
+      newErrors.address = t('registration.validation.addressRequired');
     }
 
     if (!formData.suburb.trim()) {
-      newErrors.suburb = 'Suburb is required';
+      newErrors.suburb = t('registration.validation.suburbRequired');
     }
 
     if (!formData.province) {
-      newErrors.province = 'Province is required';
+      newErrors.province = t('registration.validation.provinceRequired');
     }
 
     if (!formData.temple.trim()) {
-      newErrors.temple = 'Temple name is required';
+      newErrors.temple = t('registration.validation.templeRequired');
     }
 
     setErrors(newErrors);
@@ -68,7 +74,7 @@ export default function Home() {
     e.preventDefault();
     
     if (!agreeToTerms) {
-      alert('Please agree to the terms of service and privacy policy to continue.');
+      alert(t('registration.validation.termsRequired'));
       return;
     }
     
@@ -94,7 +100,7 @@ export default function Home() {
         // Handle API errors
         if (response.status === 409) {
           // User already exists
-          setErrors({ cellphone: 'This cellphone number is already registered' });
+          setErrors({ cellphone: t('registration.validation.cellphoneExists') });
         } else if (data.details) {
           // Validation errors from server
           const newErrors: FormErrors = {};
@@ -111,7 +117,7 @@ export default function Home() {
           setErrors(newErrors);
         } else {
           // Generic error
-          alert(`Registration failed: ${data.error || 'Unknown error occurred'}`);
+          alert(t('registration.messages.registrationFailed', { error: data.error || 'Unknown error occurred' }));
         }
         return;
       }
@@ -121,7 +127,7 @@ export default function Home() {
 
     } catch (error) {
       console.error('Registration error:', error);
-      alert('Registration failed. Please check your internet connection and try again.');
+      alert(t('registration.messages.genericError'));
     } finally {
       setIsSubmitting(false);
     }
@@ -182,8 +188,8 @@ export default function Home() {
           <div className="bg-white py-8 px-4 sm:px-8 md:px-10 xl:px-24">
             {/* Header */}
             <div className="mb-10">
-              <h2 className="text-xl sm:text-2xl font-bold text-black mb-2 text-left">Free Internet Access</h2>
-              <p className="text-sm sm:text-base text-black text-left">Register to receive complimentary internet access on your mobile device.</p>
+              <h2 className="text-xl sm:text-2xl font-bold text-black mb-2 text-left">{t('registration.title')}</h2>
+              <p className="text-sm sm:text-base text-black text-left">{t('registration.subtitle')}</p>
             </div>
             <form onSubmit={handleSubmit} className="space-y-4">
               {/* Name Fields */}
@@ -199,7 +205,7 @@ export default function Home() {
                         ? 'border-red-500' 
                         : 'border-black'
                     }`}
-                    placeholder="First name"
+                    placeholder={t('registration.form.firstName')}
                   />
                   {errors.firstName && (
                     <p className="text-red-500 text-sm mt-1">{errors.firstName}</p>
@@ -217,7 +223,7 @@ export default function Home() {
                         ? 'border-red-500' 
                         : 'border-black'
                     }`}
-                    placeholder="Surname"
+                    placeholder={t('registration.form.surname')}
                   />
                   {errors.surname && (
                     <p className="text-red-500 text-sm mt-1">{errors.surname}</p>
@@ -246,7 +252,7 @@ export default function Home() {
                         ? 'border-red-500' 
                         : 'border-black'
                     }`}
-                    placeholder="Phone number"
+                    placeholder={t('registration.form.cellphone')}
                   />
                 </div>
                 {errors.cellphone && (
@@ -266,7 +272,7 @@ export default function Home() {
                       ? 'border-red-500' 
                       : 'border-black'
                   }`}
-                  placeholder="Email (optional)"
+                  placeholder={t('registration.form.email')}
                 />
                 {errors.email && (
                   <p className="text-red-500 text-sm mt-1">{errors.email}</p>
@@ -285,7 +291,7 @@ export default function Home() {
                       ? 'border-red-500' 
                       : 'border-black'
                   }`}
-                  placeholder="Residential address"
+                  placeholder={t('registration.form.address')}
                 />
                 {errors.address && (
                   <p className="text-red-500 text-sm mt-1">{errors.address}</p>
@@ -305,7 +311,7 @@ export default function Home() {
                         ? 'border-red-500' 
                         : 'border-black'
                     }`}
-                    placeholder="Suburb"
+                    placeholder={t('registration.form.suburb')}
                   />
                   {errors.suburb && (
                     <p className="text-red-500 text-sm mt-1">{errors.suburb}</p>
@@ -317,8 +323,8 @@ export default function Home() {
                     id="province"
                     value={formData.province}
                     onChange={(value) => handleInputChange('province', value)}
-                    options={SA_PROVINCES}
-                    placeholder="Province"
+                    options={translatedProvinces}
+                    placeholder={t('registration.form.province')}
                     error={errors.province}
                   />
                   {errors.province && (
@@ -339,7 +345,7 @@ export default function Home() {
                       ? 'border-red-500' 
                       : 'border-black'
                   }`}
-                  placeholder="Temple Name"
+                  placeholder={t('registration.form.temple')}
                 />
                 {errors.temple && (
                   <p className="text-red-500 text-sm mt-1">{errors.temple}</p>
@@ -373,7 +379,7 @@ export default function Home() {
                   )}
                 </div>
                 <label htmlFor="agreeToTerms" className="ml-2 mt-0.75 text-xs sm:text-sm text-black cursor-pointer">
-                  By registering, you agree to our <span className="underline">terms of service</span> and <span className="underline">privacy policy</span>.
+                  By registering, you agree to our <span className="underline">{t('registration.form.termsOfService')}</span> and <span className="underline">{t('registration.form.privacyPolicy')}</span>.
                 </label>
               </div>
 
@@ -384,16 +390,16 @@ export default function Home() {
                   disabled={isSubmitting || !agreeToTerms}
                   className="w-full sm:flex-1 px-6 py-3 bg-black text-white font-semibold rounded-lg transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                  {isSubmitting ? (
+                      {isSubmitting ? (
                     <span className="flex items-center justify-center">
                       <svg className="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="2"></circle>
                         <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                       </svg>
-                      Registering...
+                      {t('registration.buttons.registering')}
                     </span>
                   ) : (
-                    'Register Yourself'
+                    t('registration.buttons.register')
                   )}
                 </button>
               </div>
@@ -402,7 +408,7 @@ export default function Home() {
 
             {/* Footer */}
             <div className="text-center mt-6 sm:mt-8 text-xs sm:text-sm text-gray-400 px-4">
-              <p>© 2026 | ShembeArk | All rights reserved.</p>
+              <p>{t('footer.copyright')}</p>
             </div>
           </div>
         </div>

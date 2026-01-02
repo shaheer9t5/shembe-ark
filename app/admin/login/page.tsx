@@ -4,12 +4,14 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useLanguage } from '@/context/LanguageContext';
 
 export default function AdminLoginPage() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const router = useRouter();
+  const { t } = useLanguage();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -21,7 +23,7 @@ export default function AdminLoginPage() {
       sessionStorage.setItem('adminAuth', 'true');
       router.push('/admin');
     } else {
-      setError('Invalid username or password');
+      setError(t('admin.login.invalidCredentials'));
     }
   };
 
@@ -44,8 +46,8 @@ export default function AdminLoginPage() {
 
         {/* Login Form */}
         <div className="bg-white border-2 border-black rounded-lg p-6 sm:p-8">
-          <h1 className="text-2xl font-bold text-black mb-2 text-center">Admin Login</h1>
-          <p className="text-sm text-black text-center mb-6">Enter your credentials to access the admin panel</p>
+          <h1 className="text-2xl font-bold text-black mb-2 text-center">{t('admin.login.title')}</h1>
+          <p className="text-sm text-black text-center mb-6">{t('admin.login.subtitle')}</p>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             {error && (
@@ -61,7 +63,7 @@ export default function AdminLoginPage() {
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 className="w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black bg-white dark:text-black"
-                placeholder="Username"
+                placeholder={t('admin.login.username')}
                 required
               />
             </div>
@@ -73,7 +75,7 @@ export default function AdminLoginPage() {
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black bg-white dark:text-black"
-                placeholder="Password"
+                placeholder={t('admin.login.password')}
                 required
               />
             </div>
@@ -82,7 +84,7 @@ export default function AdminLoginPage() {
               type="submit"
               className="w-full bg-black text-white font-medium py-3 px-6 rounded-lg transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black"
             >
-              Login
+              {t('admin.login.loginButton')}
             </button>
           </form>
         </div>

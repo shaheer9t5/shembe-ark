@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
+import { useLanguage } from '@/context/LanguageContext';
 import { User } from '@/types';
 
 export default function AdminPage() {
@@ -18,6 +19,7 @@ export default function AdminPage() {
   const [hasNextPage, setHasNextPage] = useState(false);
   const [hasPrevPage, setHasPrevPage] = useState(false);
   const router = useRouter();
+  const { t } = useLanguage();
 
   useEffect(() => {
     // Check authentication
@@ -137,7 +139,7 @@ export default function AdminPage() {
       window.URL.revokeObjectURL(url);
     } catch (error: any) {
       console.error('Error exporting CSV:', error);
-      alert('Failed to export CSV. Please try again.');
+      alert(t('admin.search.exportFailed'));
     }
   };
 
@@ -177,14 +179,14 @@ export default function AdminPage() {
           <div className="mb-8">
             <div className="flex justify-between items-center mb-6">
               <div>
-                <h1 className="text-2xl sm:text-3xl font-bold text-black mb-2">Admin Dashboard</h1>
-                <p className="text-sm sm:text-base text-black">View and manage myMTN registrations</p>
+                <h1 className="text-2xl sm:text-3xl font-bold text-black mb-2">{t('admin.title')}</h1>
+                <p className="text-sm sm:text-base text-black">{t('admin.subtitle')}</p>
               </div>
               <button
                 onClick={handleLogout}
                 className="px-4 py-2 border-2 border-black text-black font-medium rounded-lg hover:bg-gray-50 transition-colors text-sm cursor-pointer"
               >
-                Logout
+                {t('admin.logout')}
               </button>
             </div>
           </div>
@@ -197,7 +199,7 @@ export default function AdminPage() {
                   type="text"
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Search by name, phone, email, address, suburb, province, or temple..."
+                  placeholder={t('admin.search.placeholder')}
                   className="w-full px-4 py-3 rounded-lg border border-black focus:outline-none focus:ring-1 focus:ring-black bg-white dark:text-black"
                 />
               </div>
@@ -206,14 +208,14 @@ export default function AdminPage() {
                 disabled={users.length === 0}
                 className="px-6 py-3 bg-black text-white font-medium rounded-lg hover:bg-gray-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap cursor-pointer"
               >
-                Export CSV
+                {t('admin.search.exportButton')}
               </button>
             </div>
           </div>
 
           {/* Total Records */}
           <div className="mb-4 text-sm text-black">
-            <p className="font-medium">Total Registrations: {totalUsers}</p>
+            <p className="font-medium">{t('admin.search.totalRegistrations', { count: totalUsers.toString() })}</p>
           </div>
 
           {/* Data Table */}
@@ -221,32 +223,32 @@ export default function AdminPage() {
             {loading ? (
               <div className="p-12 text-center">
                 <div className="animate-spin rounded-full h-8 w-8 border-2 border-black border-t-transparent mx-auto mb-4"></div>
-                <p className="text-black text-sm">Loading registrations...</p>
+                <p className="text-black text-sm">{t('admin.search.loading')}</p>
               </div>
             ) : error ? (
               <div className="p-12 text-center">
-                <p className="text-black font-medium mb-4">Error: {error}</p>
+                <p className="text-black font-medium mb-4">{t('admin.search.error', { message: error })}</p>
                 <button
                   onClick={fetchUsers}
                   className="px-6 py-2 bg-black text-white rounded-lg hover:bg-gray-800 transition-colors cursor-pointer"
                 >
-                  Try Again
+                  {t('admin.search.tryAgain')}
                 </button>
               </div>
             ) : users.length === 0 ? (
               <div className="p-12 text-center">
-                <p className="text-black">No registrations found.</p>
+                <p className="text-black">{t('admin.search.noResults')}</p>
               </div>
             ) : (
               <div className="overflow-x-auto">
                 <table className="w-full">
                   <thead className="bg-black text-white">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Name</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Contact</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Location</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Temple</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Date</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">{t('admin.table.name')}</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">{t('admin.table.contact')}</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">{t('admin.table.location')}</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">{t('admin.table.temple')}</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">{t('admin.table.date')}</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -285,7 +287,7 @@ export default function AdminPage() {
           {users.length > 0 && (
             <div className="mt-6 flex flex-col sm:flex-row justify-between items-center gap-4">
               <div className="text-sm text-black">
-                <p>Page {page} of {totalPages}</p>
+                <p>{t('admin.pagination.page', { current: page.toString(), total: totalPages.toString() })}</p>
               </div>
               <div className="flex gap-2">
                 <button
@@ -293,14 +295,14 @@ export default function AdminPage() {
                   disabled={!hasPrevPage}
                   className="px-4 py-2 border-2 border-black text-black font-medium rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
-                  Previous
+                  {t('admin.pagination.previous')}
                 </button>
                 <button
                   onClick={() => setPage(page + 1)}
                   disabled={!hasNextPage}
                   className="px-4 py-2 border-2 border-black text-black font-medium rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer"
                 >
-                  Next
+                  {t('admin.pagination.next')}
                 </button>
               </div>
             </div>
