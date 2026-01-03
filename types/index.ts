@@ -25,6 +25,8 @@ export interface User {
   temple: string;
   registrationDate: string;
   isActive: boolean;
+  emailSent: boolean;
+  sentAt?: string;
   createdAt: string;
   updatedAt: string;
 }

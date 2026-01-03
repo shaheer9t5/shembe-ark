@@ -96,10 +96,11 @@ export default function AdminPage() {
 
   const exportToCSV = async () => {
     try {
-      // Fetch all users matching the search (no pagination for export)
+      // Fetch all unsent users matching the search (no pagination for export)
       const params = new URLSearchParams({
         page: '1',
-        limit: '10000' // Large limit to get all results
+        limit: '10000', // Large limit to get all results
+        unsentOnly: 'true' // Filter for unsent registrations only
       });
       
       if (searchTerm) {
@@ -113,17 +114,22 @@ export default function AdminPage() {
         throw new Error(data.error || 'Failed to fetch users for export');
       }
 
-      const headers = ['First Name', 'Surname', 'Cellphone', 'Email', 'Address', 'Suburb', 'Province', 'Temple', 'Registration Date'];
-      const csvData = data.users.map((user: User) => [
-        user.firstName,
-        user.surname,
-        `+27${user.cellphone}`,
-        user.email || '',
-        user.address,
-        user.suburb,
-        user.province,
-        user.temple,
-        formatDate(user.registrationDate)
+      // Filter for unsent and active users only
+      const unsentUsers = data.users.filter((user: User) => 
+        !user.emailSent && user.isActive
+      );
+
+      if (unsentUsers.length === 0) {
+        alert('No unsent registrations to export');
+        return;
+      }
+
+      // Format like email: Cellphone, Status, Registration Date
+      const headers = ['Cellphone', 'Status', 'Registration Date'];
+      const csvData = unsentUsers.map((user: User) => [
+        user.cellphone, // Just the number, no +27 prefix
+        'active',
+        new Date(user.registrationDate).toISOString()
       ]);
 
       const csvContent = [headers, ...csvData]
@@ -249,6 +255,7 @@ export default function AdminPage() {
                       <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">{t('admin.table.location')}</th>
                       <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">{t('admin.table.temple')}</th>
                       <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">{t('admin.table.date')}</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Email Sent</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
@@ -274,6 +281,24 @@ export default function AdminPage() {
                         </td>
                         <td className="px-4 py-3 whitespace-nowrap">
                           <div className="text-sm text-black">{formatDate(user.registrationDate)}</div>
+                        </td>
+                        <td className="px-4 py-3 whitespace-nowrap">
+                          <div className="text-sm text-black">
+                            {user.emailSent ? (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                                Yes
+                                {user.sentAt && (
+                                  <span className="ml-2 text-xs text-gray-500">
+                                    ({new Date(user.sentAt).toLocaleDateString('en-ZA', { month: 'short', day: 'numeric' })})
+                                  </span>
+                                )}
+                              </span>
+                            ) : (
+                              <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                                No
+                              </span>
+                            )}
+                          </div>
                         </td>
                       </tr>
                     ))}

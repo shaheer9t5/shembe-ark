@@ -109,6 +109,7 @@ export async function GET(request: NextRequest) {
     const page = parseInt(searchParams.get('page') || '1', 10);
     const limit = parseInt(searchParams.get('limit') || '10', 10);
     const skip = (page - 1) * limit;
+    const unsentOnly = searchParams.get('unsentOnly') === 'true';
     
     // Build search query
     let query: any = {};
@@ -130,6 +131,12 @@ export async function GET(request: NextRequest) {
       };
     }
     
+    // Filter for unsent registrations if requested
+    if (unsentOnly) {
+      query.emailSent = { $ne: true };
+      query.isActive = true;
+    }
+    
     // Get total count for pagination
     const totalUsers = await User.countDocuments(query);
     
@@ -145,7 +152,8 @@ export async function GET(request: NextRequest) {
     const formattedUsers = users.map((user: any) => ({
       ...user,
       _id: user._id.toString(),
-      registrationDate: user.registrationDate.toISOString()
+      registrationDate: user.registrationDate.toISOString(),
+      sentAt: user.sentAt ? user.sentAt.toISOString() : undefined
     }));
 
     const totalPages = Math.ceil(totalUsers / limit);
