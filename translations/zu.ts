@@ -72,18 +72,19 @@ export const zu = {
   },
   download: {
     title: 'Dawuniloda uhlelo lokusebenza lwe-Datafree Connect',
-    subtitle: 'Khetha ipulatifomu yakho ngezansi ukuze udawunilode uhlelo lokusebenza lwe-{{appName}} bese uqala ukujabulela ukufinyelela i-inthanethi yamahhala.',
+    intro: 'Linda i-SMS enemiyalo yokudawuniloda nokusetha uhlelo lokusebenza lwe-Datafree Connect. Sebenzisa i-WhatsApp ne-Facebook mahhala ngenkathi uya emcimbini Wokuhamba Wonyaka.',
     android: {
       title: 'Abasebenzisi be-Android',
+      whenYouReceiveSMS: 'Uma uthola i-SMS:',
       steps: {
-        step1: 'Dawuniloda i-Datafree Connect app APK usebenzisa inkinobho engezansi',
-        step2: 'Vumela "Faka kusuka Emithonjeni Engaziwa" uma uceliwe',
-        step3: 'Faka bese uqala uhlelo lokusebenza lwe-Datafree Connect',
-        step4: 'Uzothola i-SMS ngokushesha nje lapho isevisi inikwe amandla',
+        step1: 'Dawuniloda bese ufaka uhlelo lokusebenza lwe-Datafree Connect usebenzisa inkinobho engezansi.',
+        step2: 'Qinisekisa inombolo yakho yefowu nge-OTP/iphasiwedi oyitholayo efowini yakho.',
+        step3: 'Uzobona zonke izinhlelo zokusebenza ezitholakalayo, okuhlanganisa i-Facebook ne-WhatsApp.',
+        step4: 'Nika amandla isishintshi se-toggle ku-ON (ekhoneni elingakwesokudla phezulu).',
       },
+      setupComplete: 'Uma usuqedile ukusetha, ungajabulela lezi zinhlelo zokusebenza ngaphandle kokukhathazeka ngezindleko zedatha.',
+      importantNote: 'Gcina ukuxhumana kweselula KU-ON ngenkathi usebenzisa i-inthanethi yamahhala.',
       downloadButton: 'Dawuniloda i-Datafree Connect ye-Android',
-      googlePlayText: 'Noma dawuniloda kusuka ku-Google Play uma unedatha yeselula',
-      googlePlayButton: 'Dawuniloda kusuka ku-Google Play',
     },
     ios: {
       title: 'Abasebenzisi be-iOS',

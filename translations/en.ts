@@ -72,18 +72,19 @@ export const en = {
   },
   download: {
     title: 'Download Datafree Connect App',
-    subtitle: 'Choose your platform below to download the {{appName}} app and start enjoying complimentary internet access.',
+    intro: 'Expect an SMS with instructions to download and set up the Datafree Connect App. Use WhatsApp and Facebook free during the Annual Pilgrimage event.',
     android: {
       title: 'Android Users',
+      whenYouReceiveSMS: 'When you receive the SMS:',
       steps: {
-        step1: 'Download the Datafree Connect app APK using the button below',
-        step2: 'Enable "Install from Unknown Sources" when prompted',
-        step3: 'Install and launch the Datafree Connect app',
-        step4: 'You will receive an SMS as soon as service is enabled',
+        step1: 'Download and install the Datafree Connect app using the button below.',
+        step2: 'Verify your phone number with the OTP/password received on your phone.',
+        step3: 'You\'ll see all available apps, including Facebook and WhatsApp.',
+        step4: 'Enable the toggle switch to ON (top right corner).',
       },
+      setupComplete: 'Once you\'re set up, you can enjoy these apps without worrying about data charges.',
+      importantNote: 'Keep your cellular connection on while using free internet.',
       downloadButton: 'Download Datafree Connect for Android',
-      googlePlayText: 'Or download from Google Play if you have cellular data',
-      googlePlayButton: 'Download from Google Play',
     },
     ios: {
       title: 'iOS Users',
