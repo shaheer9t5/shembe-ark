@@ -82,6 +82,8 @@ export const en = {
         step4: 'You will receive an SMS as soon as service is enabled',
       },
       downloadButton: 'Download myMTN for Android',
+      googlePlayText: 'Or download from Google Play if you have cellular data',
+      googlePlayButton: 'Download from Google Play',
     },
     ios: {
       title: 'iOS Users',

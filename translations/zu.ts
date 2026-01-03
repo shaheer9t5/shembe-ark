@@ -82,6 +82,8 @@ export const zu = {
         step4: 'Uzothola i-SMS ngokushesha nje lapho isevisi inikwe amandla',
       },
       downloadButton: 'Dawuniloda i-myMTN ye-Android',
+      googlePlayText: 'Noma dawuniloda kusuka ku-Google Play uma unedatha yeselula',
+      googlePlayButton: 'Dawuniloda kusuka ku-Google Play',
     },
     ios: {
       title: 'Abasebenzisi be-iOS',

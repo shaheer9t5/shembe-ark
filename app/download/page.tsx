@@ -98,6 +98,19 @@ export default function DownloadPage() {
                 >
                   {t('download.android.downloadButton')}
                 </a>
+                
+                {/* Google Play Alternative */}
+                <div className="mt-3 text-center">
+                  <p className="text-xs text-gray-500 mb-2">{t('download.android.googlePlayText')}</p>
+                  <a
+                    href="https://play.google.com/store/apps/details?id=ee.datafree.connect"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center text-xs text-gray-600 hover:text-gray-900 underline transition-colors"
+                  >
+                    {t('download.android.googlePlayButton')}
+                  </a>
+                </div>
               </div>
             </div>
 
