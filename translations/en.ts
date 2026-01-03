@@ -78,7 +78,7 @@ export const en = {
       whenYouReceiveSMS: 'When you receive the SMS:',
       steps: {
         step1: 'Download and install the Datafree Connect app using the button below.',
-        step2: 'Verify your phone number with the OTP/password you receive on your phone.',
+        step2: 'Verify your phone number with the OTP/password received on your phone.',
         step3: 'You\'ll see all available apps, including Facebook and WhatsApp.',
         step4: 'Enable the toggle switch to ON (top right corner).',
       },

@@ -85,7 +85,6 @@ export const zu = {
       setupComplete: 'Uma usuqedile ukusetha, ungajabulela lezi zinhlelo zokusebenza ngaphandle kokukhathazeka ngezindleko zedatha.',
       importantNote: 'Gcina ukuxhumana kweselula KU-ON ngenkathi usebenzisa i-inthanethi yamahhala.',
       downloadButton: 'Dawuniloda i-Datafree Connect ye-Android',
-      googlePlayButton: 'Dawuniloda kusuka ku-Google Play',
     },
     ios: {
       title: 'Abasebenzisi be-iOS',
