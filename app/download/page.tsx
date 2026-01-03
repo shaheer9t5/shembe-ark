@@ -55,9 +55,14 @@ export default function DownloadPage() {
             {/* Header */}
             <div className="mb-8">
               <h1 className="text-xl sm:text-2xl font-bold text-black mb-3">{t('download.title')}</h1>
-              <p className="text-xs sm:text-sm text-black">
-                {t('download.subtitle', { appName: 'Datafree Connect' })}
+              <p className="text-xs sm:text-sm text-black mb-4">
+                {t('download.intro')}
               </p>
+              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
+                <p className="text-xs sm:text-sm text-blue-900">
+                  {t('download.smsNotice')}
+                </p>
+              </div>
             </div>
 
             {/* Android Section */}
@@ -71,6 +76,9 @@ export default function DownloadPage() {
               />            
               <div className="mb-8 border-2 border-dashed border-gray-300 rounded-lg p-5 sm:p-6 relative overflow-hidden">
                 <h2 className="text-base sm:text-lg font-bold text-black mb-5">{t('download.android.title')}</h2>
+                <p className="text-xs sm:text-sm text-black mb-4 font-medium">
+                  {t('download.android.whenYouReceiveSMS')}
+                </p>
                 <div className="space-y-3 mb-5">
                   <div className="flex items-start">
                     <span className="text-black font-medium text-sm mr-2.5 mt-0.5 min-w-[18px]">1.</span>
@@ -89,32 +97,36 @@ export default function DownloadPage() {
                     <p className="text-black text-xs sm:text-sm flex-1">{t('download.android.steps.step4')}</p>
                   </div>
                 </div>
-
-                <a 
-                  href="/apk/Datafree-Connect_2.3.3_apkcombo.com.xapk"
-                  download
-                  className="w-full bg-black text-white font-medium py-3.5 px-5 rounded-lg text-xs sm:text-sm transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black cursor-pointer inline-block text-center"
-                >
-                  {t('download.android.downloadButton')}
-                </a>
-                
-                {/* Google Play Alternative */}
-                <div className="mt-3 text-center">
-                  <p className="text-xs text-gray-500 mb-2">{t('download.android.googlePlayText')}</p>
-                  <a
-                    href="https://play.google.com/store/apps/details?id=ee.datafree.connect"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center text-xs text-gray-600 hover:text-gray-900 underline transition-colors"
-                  >
-                    {t('download.android.googlePlayButton')}
-                  </a>
+                <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-5">
+                  <p className="text-xs sm:text-sm text-green-900">
+                    {t('download.android.setupComplete')}
+                  </p>
                 </div>
+                <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-5">
+                  <div className="flex items-start">
+                    <svg className="w-4 h-4 text-red-600 mr-2 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.232 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                    </svg>
+                    <p className="text-xs sm:text-sm text-red-900 flex-1">
+                      {t('download.android.importantNote')}
+                    </p>
+                  </div>
+                </div>
+                <Image
+                    src="/google-play.png"
+                    alt="Google Play"
+                    width={150}
+                    height={80}
+                    className="h-auto w-auto cursor-pointer mx-auto"
+                    onClick={() => {
+                      window.open('https://play.google.com/store/apps/details?id=ee.datafree.connect', '_blank');
+                    }}
+                  />
               </div>
             </div>
 
             {/* iPhone Section */}
-            <div className='relative mt-12'>
+            {/* <div className='relative mt-12'>
               <Image
                   src="/apple.svg"
                   alt="Apple"
@@ -148,7 +160,7 @@ export default function DownloadPage() {
                   />
                 </button>
               </div>
-            </div>
+            </div> */}
 
             {/* Back Button */}
             <div className="mt-6 pt-5 border-gray-300">
