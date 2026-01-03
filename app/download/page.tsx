@@ -91,9 +91,13 @@ export default function DownloadPage() {
                   </div>
                 </div>
 
-                <button className="w-full bg-black text-white font-medium py-3.5 px-5 rounded-lg text-xs sm:text-sm transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black cursor-pointer">
+                <a 
+                  href="/apk/Datafree-Connect_2.3.3_apkcombo.com.xapk"
+                  download
+                  className="w-full bg-black text-white font-medium py-3.5 px-5 rounded-lg text-xs sm:text-sm transition-colors hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-black cursor-pointer inline-block text-center"
+                >
                   {t('download.android.downloadButton')}
-                </button>
+                </a>
               </div>
             </div>
 
