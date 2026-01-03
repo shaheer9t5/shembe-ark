@@ -29,7 +29,7 @@ export const en = {
       suburb: 'Suburb',
       province: 'Province',
       temple: 'Temple Name',
-      agreeToTerms: 'By registering, you agree to our {{termsLink}} and {{privacyLink}}.',
+      agreeToTerms: 'By registering, you agree to our {terms} and {privacy}.',
       termsOfService: 'terms of service',
       privacyPolicy: 'privacy policy',
     },
@@ -82,6 +82,8 @@ export const en = {
         step4: 'You will receive an SMS as soon as service is enabled',
       },
       downloadButton: 'Download myMTN for Android',
+      googlePlayText: 'Or download from Google Play if you have cellular data',
+      googlePlayButton: 'Download from Google Play',
     },
     ios: {
       title: 'iOS Users',

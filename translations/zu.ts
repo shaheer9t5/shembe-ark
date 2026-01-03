@@ -29,9 +29,9 @@ export const zu = {
       suburb: 'Isigodi',
       province: 'Isifundazwe',
       temple: 'Igama Letempeli',
-      agreeToTerms: 'Ngokubhalisa, uyavuma {{termsLink}} zethu kanye {{privacyLink}}.',
-      termsOfService: 'nemigomo yokusebenza',
-      privacyPolicy: 'nenqubomgomo yobumfihlo',
+      agreeToTerms: 'Ngokubhalisa, uyavuma {terms} zethu kanye {privacy}.',
+      termsOfService: 'imigomo yokusebenza',
+      privacyPolicy: 'inqubomgomo yobumfihlo',
     },
     validation: {
       firstNameRequired: 'Igama lokuqala liyadingeka',
@@ -82,6 +82,8 @@ export const zu = {
         step4: 'Uzothola i-SMS ngokushesha nje lapho isevisi inikwe amandla',
       },
       downloadButton: 'Dawuniloda i-myMTN ye-Android',
+      googlePlayText: 'Noma dawuniloda kusuka ku-Google Play uma unedatha yeselula',
+      googlePlayButton: 'Dawuniloda kusuka ku-Google Play',
     },
     ios: {
       title: 'Abasebenzisi be-iOS',

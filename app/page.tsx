@@ -383,7 +383,27 @@ export default function Home() {
                   )}
                 </div>
                 <label htmlFor="agreeToTerms" className="ml-2 mt-0.75 text-xs sm:text-sm text-black cursor-pointer">
-                  By registering, you agree to our <span className="underline">{t('registration.form.termsOfService')}</span> and <span className="underline">{t('registration.form.privacyPolicy')}</span>.
+                  {(() => {
+                    const text = t('registration.form.agreeToTerms');
+                    const termsText = t('registration.form.termsOfService');
+                    const privacyText = t('registration.form.privacyPolicy');
+                    
+                    // Split by placeholders and replace with underlined versions
+                    const parts = text.split('{terms}');
+                    if (parts.length === 2) {
+                      const afterTerms = parts[1].split('{privacy}');
+                      return (
+                        <>
+                          {parts[0]}
+                          <span className="underline">{termsText}</span>
+                          {afterTerms[0]}
+                          <span className="underline">{privacyText}</span>
+                          {afterTerms[1]}
+                        </>
+                      );
+                    }
+                    return text;
+                  })()}
                 </label>
               </div>
 
