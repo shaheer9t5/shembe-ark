@@ -8,10 +8,10 @@ export default function DownloadPage() {
   const { t } = useLanguage();
   
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white overflow-x-hidden">
       <div className="flex min-h-screen">
         {/* Desktop Layout: Left Banner with Logo Overlay */}
-        <div className="hidden lg:block lg:w-[55vw] relative">
+        <div className="hidden lg:block lg:w-[55vw] lg:h-screen relative">
           <Image
             src="/shembe-banner.png"
             alt="Shembe Banner"
@@ -57,7 +57,7 @@ export default function DownloadPage() {
             <div className="mb-8">
               <h1 className="text-xl sm:text-2xl font-bold text-black mb-3">{t('download.title')}</h1>
               <p className="text-xs sm:text-sm text-black">
-                {t('download.subtitle', { appName: 'myMTN' })}
+                {t('download.subtitle', { appName: 'Datafree Connect' })}
               </p>
             </div>
 

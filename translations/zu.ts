@@ -71,17 +71,17 @@ export const zu = {
     copyright: '© 2026 | ShembeArk | Wonke amalungelo agodliwe.',
   },
   download: {
-    title: 'Dawuniloda uhlelo lokusebenza lwe-myMTN',
+    title: 'Dawuniloda uhlelo lokusebenza lwe-Datafree Connect',
     subtitle: 'Khetha ipulatifomu yakho ngezansi ukuze udawunilode uhlelo lokusebenza lwe-{{appName}} bese uqala ukujabulela ukufinyelela i-inthanethi yamahhala.',
     android: {
       title: 'Abasebenzisi be-Android',
       steps: {
-        step1: 'Dawuniloda i-myMTN app APK usebenzisa inkinobho engezansi',
+        step1: 'Dawuniloda i-Datafree Connect app APK usebenzisa inkinobho engezansi',
         step2: 'Vumela "Faka kusuka Emithonjeni Engaziwa" uma uceliwe',
-        step3: 'Faka bese uqala uhlelo lokusebenza lwe-myMTN',
+        step3: 'Faka bese uqala uhlelo lokusebenza lwe-Datafree Connect',
         step4: 'Uzothola i-SMS ngokushesha nje lapho isevisi inikwe amandla',
       },
-      downloadButton: 'Dawuniloda i-myMTN ye-Android',
+      downloadButton: 'Dawuniloda i-Datafree Connect ye-Android',
       googlePlayText: 'Noma dawuniloda kusuka ku-Google Play uma unedatha yeselula',
       googlePlayButton: 'Dawuniloda kusuka ku-Google Play',
     },
@@ -93,7 +93,7 @@ export const zu = {
   },
   admin: {
     title: 'Ideshibhodi Yomphathi',
-    subtitle: 'Buka futhi uphathe ukubhalisa kwe-myMTN',
+    subtitle: 'Buka futhi uphathe ukubhalisa kwe-Datafree Connect',
     login: {
       title: 'Ukungena Komphathi',
       subtitle: 'Faka imininingwane yakho yoqiniseko ukuze ufinyelele iphaneli yomphathi',

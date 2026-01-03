@@ -134,7 +134,7 @@ export default function AdminPage() {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `mymtn-registrations-${new Date().toISOString().split('T')[0]}.csv`;
+      a.download = `datafree-connect-registrations-${new Date().toISOString().split('T')[0]}.csv`;
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (error: any) {

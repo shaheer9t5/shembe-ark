@@ -71,17 +71,17 @@ export const en = {
     copyright: '© 2026 | ShembeArk | All rights reserved.',
   },
   download: {
-    title: 'Download myMTN App',
+    title: 'Download Datafree Connect App',
     subtitle: 'Choose your platform below to download the {{appName}} app and start enjoying complimentary internet access.',
     android: {
       title: 'Android Users',
       steps: {
-        step1: 'Download the myMTN app APK using the button below',
+        step1: 'Download the Datafree Connect app APK using the button below',
         step2: 'Enable "Install from Unknown Sources" when prompted',
-        step3: 'Install and launch the myMTN app',
+        step3: 'Install and launch the Datafree Connect app',
         step4: 'You will receive an SMS as soon as service is enabled',
       },
-      downloadButton: 'Download myMTN for Android',
+      downloadButton: 'Download Datafree Connect for Android',
       googlePlayText: 'Or download from Google Play if you have cellular data',
       googlePlayButton: 'Download from Google Play',
     },
@@ -93,7 +93,7 @@ export const en = {
   },
   admin: {
     title: 'Admin Dashboard',
-    subtitle: 'View and manage myMTN registrations',
+    subtitle: 'View and manage Datafree Connect registrations',
     login: {
       title: 'Admin Login',
       subtitle: 'Enter your credentials to access the admin panel',
