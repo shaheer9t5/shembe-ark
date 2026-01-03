@@ -18,7 +18,7 @@ export default function AdminLoginPage() {
     setError('');
 
     // Hardcoded credentials
-    if (username === 'admin' && password === 'admin123') {
+    if (username === 'shembeark' && password === 'ShembeArk@2026!') {
       // Store auth in sessionStorage
       sessionStorage.setItem('adminAuth', 'true');
       router.push('/admin');
