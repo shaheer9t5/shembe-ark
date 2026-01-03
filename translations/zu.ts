@@ -90,6 +90,9 @@ export const zu = {
       warning: 'Uzodinga idatha yeselula ukuze udawunilode lolu hlelo lokusebenza.',
     },
     backButton: 'Bhalisa omunye umsebenzisi',
+    tutorialButton: 'Buka Isifundo',
+    tutorialTitle: 'Isifundo Sokufaka',
+    closeModal: 'Vala',
   },
   admin: {
     title: 'Ideshibhodi Yomphathi',

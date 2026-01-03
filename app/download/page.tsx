@@ -3,9 +3,53 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { useLanguage } from '@/context/LanguageContext';
+import { useState, useEffect, useRef } from 'react';
 
 export default function DownloadPage() {
   const { t } = useLanguage();
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
+
+  // Handle ESC key to close modal
+  useEffect(() => {
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && isModalOpen) {
+        setIsModalOpen(false);
+      }
+    };
+
+    if (isModalOpen) {
+      document.addEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'hidden';
+    }
+
+    return () => {
+      document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'unset';
+    };
+  }, [isModalOpen]);
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setIsVideoLoading(true);
+    // Pause and reset video when modal closes
+    if (videoRef.current) {
+      videoRef.current.pause();
+      videoRef.current.currentTime = 0;
+    }
+  };
+
+  // Auto-play video when it's ready
+  const handleCanPlay = () => {
+    setIsVideoLoading(false);
+    if (videoRef.current) {
+      videoRef.current.play().catch((error) => {
+        // Autoplay may be blocked by browser, that's okay
+        console.log('Autoplay prevented:', error);
+      });
+    }
+  };
   
   return (
     <div className="min-h-screen bg-white overflow-x-hidden">
@@ -59,6 +103,17 @@ export default function DownloadPage() {
               <p className="text-xs sm:text-sm text-black">
                 {t('download.subtitle', { appName: 'Datafree Connect' })}
               </p>
+              {/* Tutorial Button */}
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="mt-4 inline-flex items-center gap-2 text-sm text-gray-600 hover:text-black transition-colors underline cursor-pointer"
+              >
+                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                {t('download.tutorialButton')}
+              </button>
             </div>
 
             {/* Android Section */}
@@ -169,6 +224,60 @@ export default function DownloadPage() {
           </div>
         </div>
       </div>
+
+      {/* Tutorial Modal */}
+      {isModalOpen && (
+        <div 
+          className="fixed inset-0 z-50 flex items-center justify-center backdrop-blur-sm bg-white/10 p-4"
+          onClick={handleCloseModal}
+        >
+          <div 
+            className="relative bg-white rounded-lg max-w-4xl w-full h-[80vh] overflow-hidden flex flex-col"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {/* Modal Header */}
+            <div className="flex items-center justify-between p-4 border-b border-gray-200">
+              <h2 className="text-lg font-bold text-black">{t('download.tutorialTitle')}</h2>
+              <button
+                onClick={handleCloseModal}
+                className="text-gray-500 hover:text-black transition-colors cursor-pointer"
+                aria-label={t('download.closeModal')}
+              >
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </button>
+            </div>
+
+            {/* Video Container */}
+            <div className="relative bg-black flex-1 flex items-center justify-center overflow-hidden">
+              {isVideoLoading && (
+                <div className="absolute inset-0 flex items-center justify-center z-10">
+                  <div className="flex flex-col items-center gap-3">
+                    <div className="w-12 h-12 border-4 border-white border-t-transparent rounded-full animate-spin"></div>
+                    <p className="text-white text-sm">{t('common.loading')}</p>
+                  </div>
+                </div>
+              )}
+              <video
+                ref={videoRef}
+                src="/f9b068d8-1a9e-4b20-9e45-011dc0c584d4.MP4"
+                controls
+                autoPlay
+                playsInline
+                preload="auto"
+                className="w-full h-full object-contain"
+                onLoadedData={() => setIsVideoLoading(false)}
+                onLoadStart={() => setIsVideoLoading(true)}
+                onCanPlay={handleCanPlay}
+                onError={() => setIsVideoLoading(false)}
+              >
+                Your browser does not support the video tag.
+              </video>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

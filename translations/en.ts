@@ -90,6 +90,9 @@ export const en = {
       warning: 'You will require cellular data to download this app.',
     },
     backButton: 'Register another user',
+    tutorialButton: 'Watch Tutorial',
+    tutorialTitle: 'Installation Tutorial',
+    closeModal: 'Close',
   },
   admin: {
     title: 'Admin Dashboard',
