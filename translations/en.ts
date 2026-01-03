@@ -29,7 +29,7 @@ export const en = {
       suburb: 'Suburb',
       province: 'Province',
       temple: 'Temple Name',
-      agreeToTerms: 'By registering, you agree to our {{termsLink}} and {{privacyLink}}.',
+      agreeToTerms: 'By registering, you agree to our {terms} and {privacy}.',
       termsOfService: 'terms of service',
       privacyPolicy: 'privacy policy',
     },
