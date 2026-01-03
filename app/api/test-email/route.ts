@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
     const allUsers = await User.find({
       isActive: true
     })
-      .select('firstName surname cellphone email address suburb province temple registrationDate emailSent')
+      .select('cellphone registrationDate')
       .sort({ registrationDate: -1 }) // Newest first
       .limit(50) // Limit to 50 for testing
       .lean();
@@ -32,60 +32,32 @@ export async function GET(request: NextRequest) {
     if (allUsers.length === 0) {
       console.log('📝 No registrations found, creating sample data for test');
       const sampleData = [{
-        'First Name': 'Test',
-        'Surname': 'User',
         'Cellphone': '812345678',
-        'Email': 'test@example.com',
-        'Address': '123 Test Street',
-        'Suburb': 'Test Suburb',
-        'Province': 'Gauteng',
-        'Temple': 'Test Temple',
         'Registration Date': new Date().toISOString(),
-        'Email Sent': 'false'
+        'Status': 'active'
       }];
       
       csvData = stringify(sampleData, {
         header: true,
         columns: [
-          'First Name',
-          'Surname', 
           'Cellphone',
-          'Email',
-          'Address',
-          'Suburb',
-          'Province',
-          'Temple',
           'Registration Date',
-          'Email Sent'
+          'Status'
         ]
       });
       actualCount = 1;
     } else {
       // Generate CSV from actual data
       csvData = stringify(allUsers.map(user => ({
-        'First Name': user.firstName,
-        'Surname': user.surname,
         'Cellphone': user.cellphone,
-        'Email': user.email || '',
-        'Address': user.address,
-        'Suburb': user.suburb,
-        'Province': user.province,
-        'Temple': user.temple,
+        'Status': 'active',
         'Registration Date': new Date(user.registrationDate).toISOString(),
-        'Email Sent': user.emailSent ? 'true' : 'false'
       })), {
         header: true,
         columns: [
-          'First Name',
-          'Surname',
           'Cellphone', 
-          'Email',
-          'Address',
-          'Suburb',
-          'Province',
-          'Temple',
+          'Status',
           'Registration Date',
-          'Email Sent'
         ]
       });
     }
@@ -107,33 +79,96 @@ export async function GET(request: NextRequest) {
       to: recipientEmail,
       subject: `🧪 TEST - All Registrations Report (${actualCount} total) - ${dateString}`,
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <div style="background-color: #fff3cd; border: 1px solid #ffeaa7; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-            <h2 style="color: #856404; margin: 0;">🧪 TEST EMAIL</h2>
-            <p style="margin: 5px 0 0 0; color: #856404;">This is a test of the registration email system with ALL users.</p>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Test Registration Report</title>
+        </head>
+        <body style="margin: 0; padding: 0; background-color: #ffffff; font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+          <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+            
+            <!-- Test Warning Banner -->
+            <div style="background-color: #fff3cd; border: 2px solid #856404; padding: 15px 20px; text-align: center;">
+              <h3 style="margin: 0; color: #856404; font-size: 16px; font-weight: 600;">🧪 TEST EMAIL</h3>
+              <p style="margin: 5px 0 0 0; color: #856404; font-size: 14px;">This is a test of the registration email system</p>
+            </div>
+
+            <!-- Header with Logo -->
+            <div style="text-align: center; padding: 40px 20px 30px 20px; border-bottom: 2px solid #171717;">
+              <img src="https://register.shembeark.co.za/shembe-ark.svg" alt="Shembe Ark" style="height: 40px; width: auto; margin-bottom: 20px;">
+              <h1 style="margin: 0; color: #171717; font-size: 28px; font-weight: 600; letter-spacing: -0.5px;">
+                Test Registration Report
+              </h1>
+            </div>
+
+            <!-- Main Content -->
+            <div style="padding: 40px 20px;">
+              
+              <!-- Stats Card -->
+              <div style="background-color: #ffffff; border: 2px solid #171717; border-radius: 8px; padding: 30px; margin-bottom: 30px;">
+                <div style="text-align: center; margin-bottom: 25px;">
+                  <div style="display: inline-block; background-color: #171717; color: #ffffff; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500; margin-bottom: 15px;">
+                    ALL REGISTRATIONS (TEST)
+                  </div>
+                  <h2 style="margin: 0; color: #171717; font-size: 48px; font-weight: 700; line-height: 1;">
+                    ${actualCount}
+                  </h2>
+                </div>
+                
+                <div style="border-top: 1px solid #e5e5e5; padding-top: 20px;">
+                  <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                      <td style="padding: 8px 0; color: #666; font-size: 14px; font-weight: 500;">Report Generated:</td>
+                      <td style="padding: 8px 0; color: #171717; font-size: 14px; font-weight: 600; text-align: right;">
+                        ${new Date(timestamp).toLocaleDateString('en-ZA', { 
+                          year: 'numeric', 
+                          month: 'long', 
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 8px 0; color: #666; font-size: 14px; font-weight: 500;">Test Data:</td>
+                      <td style="padding: 8px 0; color: #171717; font-size: 14px; font-weight: 600; text-align: right;">
+                        ${allUsers.length === 0 ? 'Sample Data' : 'Real Data (Max 50)'}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 8px 0; color: #666; font-size: 14px; font-weight: 500;">Includes:</td>
+                      <td style="padding: 8px 0; color: #171717; font-size: 14px; font-weight: 600; text-align: right;">Sent + Unsent</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Attachment Notice -->
+              <div style="background-color: #f8f9fa; border: 2px solid #e5e5e5; border-radius: 8px; padding: 25px; text-align: center; margin-bottom: 30px;">
+                <div style="font-size: 32px; margin-bottom: 10px;">📎</div>
+                <h3 style="margin: 0 0 8px 0; color: #171717; font-size: 18px; font-weight: 600;">
+                  Registration Data
+                </h3>
+                <p style="margin: 0; color: #666; font-size: 14px; line-height: 1.5;">
+                  Registration details are included in the attached CSV file:<br>
+                  <strong style="color: #171717;">test-all-registrations-${dateString}.csv</strong>
+                </p>
+              </div>
+
+              <!-- System Info -->
+              <div style="text-align: center; padding: 20px 0; border-top: 1px solid #e5e5e5;">
+                <p style="margin: 0; color: #999; font-size: 12px; line-height: 1.4;">
+                  This is a test email from the Shembe Ark registration system.<br>
+                  Providing complimentary internet access to our community.
+                </p>
+              </div>
+
+            </div>
           </div>
-          
-          <h2 style="color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
-            All Registrations Report (Test)
-          </h2>
-          
-          <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p><strong>Total registrations:</strong> ${actualCount} ${allUsers.length === 0 ? '(sample data)' : '(all users)'}</p>
-            <p><strong>Report generated at:</strong> ${timestamp}</p>
-            <p><strong>Test mode:</strong> All users included (limited to 50 max)</p>
-            <p><strong>Note:</strong> Includes both sent and unsent registrations</p>
-          </div>
-          
-          <div style="background-color: #e7f3ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
-            <p style="margin: 0; color: #0056b3;">
-              📎 The registration data is attached as a CSV file with email status.
-            </p>
-          </div>
-          
-          <div style="color: #666; font-size: 12px; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 15px;">
-            <p>This is a test email from the Shembe Ark registration system.</p>
-          </div>
-        </div>
+        </body>
+        </html>
       `,
       attachments: [
         {

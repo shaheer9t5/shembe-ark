@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
         emailSent: { $ne: true },
         isActive: true
       })
-        .select('firstName surname cellphone email address suburb province temple registrationDate')
+        .select('cellphone registrationDate')
         .sort({ registrationDate: 1 }) // Oldest first
         .skip(skip)
         .limit(BATCH_SIZE)
@@ -92,26 +92,84 @@ export async function GET(request: NextRequest) {
       to: recipientEmail,
       subject: `New Registrations Report - ${allUnsentUsers.length} registrations (${dateString})`,
       html: `
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
-          <h2 style="color: #333; border-bottom: 2px solid #007bff; padding-bottom: 10px;">
-            New Registrations Report
-          </h2>
-          
-          <div style="background-color: #f8f9fa; padding: 20px; border-radius: 8px; margin: 20px 0;">
-            <p><strong>Total new registrations:</strong> ${allUnsentUsers.length}</p>
-            <p><strong>Report generated at:</strong> ${timestamp}</p>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+          <meta charset="UTF-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+          <title>Registration Report</title>
+        </head>
+        <body style="margin: 0; padding: 0; background-color: #ffffff; font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+          <div style="max-width: 600px; margin: 0 auto; background-color: #ffffff;">
+            
+            <!-- Header with Logo -->
+            <div style="text-align: center; padding: 40px 20px 30px 20px; border-bottom: 2px solid #171717;">
+              <img src="https://register.shembeark.co.za/shembe-ark.svg" alt="Shembe Ark" style="height: 40px; width: auto; margin-bottom: 20px;">
+              <h1 style="margin: 0; color: #171717; font-size: 28px; font-weight: 600; letter-spacing: -0.5px;">
+                Registration Report
+              </h1>
+            </div>
+
+            <!-- Main Content -->
+            <div style="padding: 40px 20px;">
+              
+              <!-- Stats Card -->
+              <div style="background-color: #ffffff; border: 2px solid #171717; border-radius: 8px; padding: 30px; margin-bottom: 30px;">
+                <div style="text-align: center; margin-bottom: 25px;">
+                  <div style="display: inline-block; background-color: #171717; color: #ffffff; padding: 8px 16px; border-radius: 20px; font-size: 14px; font-weight: 500; margin-bottom: 15px;">
+                    NEW REGISTRATIONS
+                  </div>
+                  <h2 style="margin: 0; color: #171717; font-size: 48px; font-weight: 700; line-height: 1;">
+                    ${allUnsentUsers.length}
+                  </h2>
+                </div>
+                
+                <div style="border-top: 1px solid #e5e5e5; padding-top: 20px;">
+                  <table style="width: 100%; border-collapse: collapse;">
+                    <tr>
+                      <td style="padding: 8px 0; color: #666; font-size: 14px; font-weight: 500;">Report Generated:</td>
+                      <td style="padding: 8px 0; color: #171717; font-size: 14px; font-weight: 600; text-align: right;">
+                        ${new Date(timestamp).toLocaleDateString('en-ZA', { 
+                          year: 'numeric', 
+                          month: 'long', 
+                          day: 'numeric',
+                          hour: '2-digit',
+                          minute: '2-digit'
+                        })}
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="padding: 8px 0; color: #666; font-size: 14px; font-weight: 500;">Time Zone:</td>
+                      <td style="padding: 8px 0; color: #171717; font-size: 14px; font-weight: 600; text-align: right;">SAST</td>
+                    </tr>
+                  </table>
+                </div>
+              </div>
+
+              <!-- Attachment Notice -->
+              <div style="background-color: #f8f9fa; border: 2px solid #e5e5e5; border-radius: 8px; padding: 25px; text-align: center; margin-bottom: 30px;">
+                <div style="font-size: 32px; margin-bottom: 10px;">📎</div>
+                <h3 style="margin: 0 0 8px 0; color: #171717; font-size: 18px; font-weight: 600;">
+                  Complete Registration Data
+                </h3>
+                <p style="margin: 0; color: #666; font-size: 14px; line-height: 1.5;">
+                  All registration details are included in the attached CSV file:<br>
+                  <strong style="color: #171717;">registrations-${dateString}.csv</strong>
+                </p>
+              </div>
+
+              <!-- System Info -->
+              <div style="text-align: center; padding: 20px 0; border-top: 1px solid #e5e5e5;">
+                <p style="margin: 0; color: #999; font-size: 12px; line-height: 1.4;">
+                  This automated report was generated by the Shembe Ark registration system.<br>
+                  Providing complimentary internet access to our community.
+                </p>
+              </div>
+
+            </div>
           </div>
-          
-          <div style="background-color: #e7f3ff; padding: 15px; border-radius: 8px; margin: 20px 0;">
-            <p style="margin: 0; color: #0056b3;">
-              📎 The detailed registration data is attached as a CSV file.
-            </p>
-          </div>
-          
-          <div style="color: #666; font-size: 12px; margin-top: 30px; border-top: 1px solid #ddd; padding-top: 15px;">
-            <p>This is an automated report from the Shembe Ark registration system.</p>
-          </div>
-        </div>
+        </body>
+        </html>
       `,
       attachments: [
         {
