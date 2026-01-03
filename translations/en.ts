@@ -72,22 +72,19 @@ export const en = {
   },
   download: {
     title: 'Download Datafree Connect App',
-    intro: 'Now that you have completed registration, please expect an SMS with instructions on downloading and setting up the MTN Connect App. This will allow you to use WhatsApp and Facebook free while you attend the Annual Pilgrimage event.',
-    smsNotice: 'When you receive the SMS, follow the steps below to set up the app.',
+    intro: 'Expect an SMS with instructions to download and set up the Datafree Connect App. Use WhatsApp and Facebook free during the Annual Pilgrimage event.',
     android: {
       title: 'Android Users',
       whenYouReceiveSMS: 'When you receive the SMS:',
       steps: {
-        step1: 'Download and install the Datafree Connect app using the link provided.',
-        step2: 'Verify your phone number using the same number that received the SMS invitation. After entering your number, you will receive a password or OTP to verify your account; enter it and you are all set and will not need to verify your number again.',
-        step3: 'The Connect App home screen will load, and you will see all the apps you can use without data - Facebook and WhatsApp.',
-        step4: 'Ensure that the toggle switch (top right hand corner) is set to "ON".',
+        step1: 'Download and install the Datafree Connect app using the button below.',
+        step2: 'Verify your phone number with the OTP/password you receive on your phone.',
+        step3: 'You\'ll see all available apps, including Facebook and WhatsApp.',
+        step4: 'Enable the toggle switch to ON (top right corner).',
       },
       setupComplete: 'Once you\'re set up, you can enjoy these apps without worrying about data charges.',
-      importantNote: 'Important - Do Not switch off your phone\'s Mobile Connection as this will prevent the Connect App connecting to your mobile Network.',
+      importantNote: 'Keep your cellular connection on while using free internet.',
       downloadButton: 'Download Datafree Connect for Android',
-      googlePlayText: 'Or download from Google Play if you have cellular data',
-      googlePlayButton: 'Download from Google Play',
     },
     ios: {
       title: 'iOS Users',

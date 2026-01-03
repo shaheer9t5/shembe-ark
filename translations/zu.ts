@@ -72,21 +72,19 @@ export const zu = {
   },
   download: {
     title: 'Dawuniloda uhlelo lokusebenza lwe-Datafree Connect',
-    intro: 'Manje njengoba usuqedile ukubhalisa, sicela ulinde i-SMS enemiyalo yokudawuniloda nokusetha uhlelo lokusebenza lwe-MTN Connect. Lokhu kuzokuvumela ukuthi usebenzise i-WhatsApp ne-Facebook mahhala ngenkathi uya emcimbini Wokuhamba Wonyaka.',
-    smsNotice: 'Uma uthola i-SMS, landela izinyathelo ezilandelayo ukuze usethe uhlelo lokusebenza.',
+    intro: 'Linda i-SMS enemiyalo yokudawuniloda nokusetha uhlelo lokusebenza lwe-Datafree Connect. Sebenzisa i-WhatsApp ne-Facebook mahhala ngenkathi uya emcimbini Wokuhamba Wonyaka.',
     android: {
       title: 'Abasebenzisi be-Android',
       whenYouReceiveSMS: 'Uma uthola i-SMS:',
       steps: {
-        step1: 'Dawuniloda bese ufaka uhlelo lokusebenza lwe-Datafree Connect usebenzisa isixhumanisi esinikeziwe.',
-        step2: 'Qinisekisa inombolo yakho yefowu usebenzisa inombolo efanayo ethole isimemo se-SMS. Ngemva kokufaka inombolo yakho, uzothola iphasiwedi noma i-OTP ukuze uqinisekise i-akhawunti yakho; yifake bese usulungile futhi awusozidingi ukuqinisekisa inombolo yakho futhi.',
-        step3: 'Isikrini sasekhaya se-Connect App sizolayisha, futhi uzobona zonke izinhlelo zokusebenza ongazisebenzisa ngaphandle kwedatha - i-Facebook ne-WhatsApp.',
-        step4: 'Qinisekisa ukuthi isishintshi se-toggle (ekhoneni elingakwesokudla phezulu) sisethwe ku-"ON".',
+        step1: 'Dawuniloda bese ufaka uhlelo lokusebenza lwe-Datafree Connect usebenzisa inkinobho engezansi.',
+        step2: 'Qinisekisa inombolo yakho yefowu nge-OTP/iphasiwedi oyitholayo efowini yakho.',
+        step3: 'Uzobona zonke izinhlelo zokusebenza ezitholakalayo, okuhlanganisa i-Facebook ne-WhatsApp.',
+        step4: 'Nika amandla isishintshi se-toggle ku-ON (ekhoneni elingakwesokudla phezulu).',
       },
       setupComplete: 'Uma usuqedile ukusetha, ungajabulela lezi zinhlelo zokusebenza ngaphandle kokukhathazeka ngezindleko zedatha.',
-      importantNote: 'Okubalulekile - Ungakuvuli ukuxhumana kwe-Mobile kwefoni yakho ngoba lokhu kuzovimbela i-Connect App ukuthi ixhumane ne-Network yakho yeselula.',
+      importantNote: 'Gcina ukuxhumana kweselula KU-ON ngenkathi usebenzisa i-inthanethi yamahhala.',
       downloadButton: 'Dawuniloda i-Datafree Connect ye-Android',
-      googlePlayText: 'Noma dawuniloda kusuka ku-Google Play uma unedatha yeselula',
       googlePlayButton: 'Dawuniloda kusuka ku-Google Play',
     },
     ios: {

@@ -58,11 +58,6 @@ export default function DownloadPage() {
               <p className="text-xs sm:text-sm text-black mb-4">
                 {t('download.intro')}
               </p>
-              <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-4">
-                <p className="text-xs sm:text-sm text-blue-900">
-                  {t('download.smsNotice')}
-                </p>
-              </div>
             </div>
 
             {/* Android Section */}
@@ -97,31 +92,22 @@ export default function DownloadPage() {
                     <p className="text-black text-xs sm:text-sm flex-1">{t('download.android.steps.step4')}</p>
                   </div>
                 </div>
-                <div className="bg-green-50 border border-green-200 rounded-lg p-3 mb-5">
-                  <p className="text-xs sm:text-sm text-green-900">
-                    {t('download.android.setupComplete')}
-                  </p>
-                </div>
-                <div className="bg-red-50 border border-red-200 rounded-lg p-3 mb-5">
-                  <div className="flex items-start">
-                    <svg className="w-4 h-4 text-red-600 mr-2 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L3.232 16.5c-.77.833.192 2.5 1.732 2.5z" />
-                    </svg>
-                    <p className="text-xs sm:text-sm text-red-900 flex-1">
-                      {t('download.android.importantNote')}
-                    </p>
-                  </div>
-                </div>
+                <p className="text-xs sm:text-sm text-black mb-5">
+                  {t('download.android.setupComplete')}
+                </p>
                 <Image
                     src="/google-play.png"
                     alt="Google Play"
                     width={150}
                     height={80}
-                    className="h-auto w-auto cursor-pointer mx-auto"
+                    className="h-auto w-auto cursor-pointer mx-auto mb-2"
                     onClick={() => {
                       window.open('https://play.google.com/store/apps/details?id=ee.datafree.connect', '_blank');
                     }}
                   />
+                <p className="mt-5 text-xs text-gray-500 text-center">
+                  {t('download.android.importantNote')}
+                </p>
               </div>
             </div>
 
