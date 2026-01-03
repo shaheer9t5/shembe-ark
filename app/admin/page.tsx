@@ -255,7 +255,7 @@ export default function AdminPage() {
                       <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">{t('admin.table.location')}</th>
                       <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">{t('admin.table.temple')}</th>
                       <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">{t('admin.table.date')}</th>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">Email Sent</th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider">{t('admin.table.emailSent')}</th>
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">

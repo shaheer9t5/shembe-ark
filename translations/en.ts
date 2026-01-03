@@ -118,6 +118,7 @@ export const en = {
       location: 'Location',
       temple: 'Temple',
       date: 'Date',
+      emailSent: 'Email Sent',
     },
     pagination: {
       page: 'Page {{current}} of {{total}}',

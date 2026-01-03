@@ -118,6 +118,7 @@ export const zu = {
       location: 'Indawo',
       temple: 'Itempeli',
       date: 'Usuku',
+      emailSent: 'I-imeyili Ithunyelwe',
     },
     pagination: {
       page: 'Ikhasi {{current}} kwela {{total}}',
