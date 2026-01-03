@@ -87,9 +87,15 @@ export async function GET(request: NextRequest) {
     const timestamp = new Date().toISOString();
     const dateString = timestamp.split('T')[0];
 
+    // Get CC recipients from environment variable (comma-separated)
+    const ccRecipients = process.env.EMAIL_CC 
+      ? process.env.EMAIL_CC.split(',').map(email => email.trim()).filter(Boolean)
+      : undefined;
+
     const emailResult = await resend.emails.send({
       from: fromEmail,
       to: recipientEmail,
+      ...(ccRecipients && ccRecipients.length > 0 && { cc: ccRecipients }),
       subject: `New Registrations Report - ${allUnsentUsers.length} registrations (${dateString})`,
       html: `
         <!DOCTYPE html>
