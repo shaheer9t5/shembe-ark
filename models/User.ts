@@ -13,6 +13,7 @@ export interface IUser extends Document {
   registrationDate: Date;
   isActive: boolean;
   emailSent: boolean;
+  sentAt?: Date;
 }
 
 // User schema
@@ -96,6 +97,10 @@ const UserSchema: Schema = new Schema({
     type: Boolean,
     default: false,
     index: true
+  },
+  sentAt: {
+    type: Date,
+    default: null
   }
 }, {
   timestamps: true // Automatically adds createdAt and updatedAt fields
