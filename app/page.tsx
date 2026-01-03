@@ -146,7 +146,7 @@ export default function Home() {
     <div className="min-h-screen bg-white overflow-x-hidden">
       <div className="flex min-h-screen">
         {/* Desktop Layout: Left Banner with Logo Overlay */}
-        <div className="hidden lg:block lg:w-[55vw] lg:h-screen relative">
+        <div className="hidden lg:block lg:w-[55vw] lg:min-h-screen relative">
         <Image
             src="/shembe-banner.png"
             alt="Shembe Banner"
