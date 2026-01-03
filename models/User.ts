@@ -12,6 +12,7 @@ export interface IUser extends Document {
   temple: string;
   registrationDate: Date;
   isActive: boolean;
+  emailSent: boolean;
 }
 
 // User schema
@@ -90,6 +91,11 @@ const UserSchema: Schema = new Schema({
   isActive: {
     type: Boolean,
     default: true
+  },
+  emailSent: {
+    type: Boolean,
+    default: false,
+    index: true
   }
 }, {
   timestamps: true // Automatically adds createdAt and updatedAt fields
@@ -99,6 +105,7 @@ const UserSchema: Schema = new Schema({
 UserSchema.index({ cellphone: 1 }, { unique: true });
 UserSchema.index({ temple: 1 });
 UserSchema.index({ province: 1 });
+UserSchema.index({ emailSent: 1, registrationDate: 1 }); // Compound index for efficient unsent queries
 
 // Create and export the model
 const User: Model<IUser> = mongoose.models.User || mongoose.model<IUser>('User', UserSchema);
