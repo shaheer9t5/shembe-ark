@@ -65,27 +65,15 @@ export async function GET(request: NextRequest) {
 
     // Generate CSV
     const csvData = stringify(allUnsentUsers.map(user => ({
-      'First Name': user.firstName,
-      'Surname': user.surname,
       'Cellphone': user.cellphone,
-      'Email': user.email || '',
-      'Address': user.address,
-      'Suburb': user.suburb,
-      'Province': user.province,
-      'Temple': user.temple,
-      'Registration Date': new Date(user.registrationDate).toISOString()
+      'Status': "active",
+      'Registration Date': new Date(user.registrationDate).toISOString(),
     })), {
       header: true,
       columns: [
-        'First Name',
-        'Surname',
         'Cellphone',
-        'Email',
-        'Address',
-        'Suburb',
-        'Province',
-        'Temple',
-        'Registration Date'
+        'Status',
+        'Registration Date',
       ]
     });
 
