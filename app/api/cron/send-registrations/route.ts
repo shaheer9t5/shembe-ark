@@ -133,29 +133,29 @@ export async function GET(request: NextRequest) {
       ]
     });
 
-    // Only mark as sent if email was successfully sent
+    // Check if email was successfully sent
     if (emailResult.data?.id) {
-      // Bulk update all fetched registrations as sent
-      const now = new Date();
-      const updateResult = await User.updateMany(
-        { _id: { $in: userIdsToMark } },
-        {
-          $set: {
-            emailSent: true,
-            sentAt: now
-          }
-        }
-      );
-
-      console.log(`Successfully sent ${allUnsentUsers.length} registrations via email. Updated ${updateResult.modifiedCount} records.`);
+      console.log(`Successfully sent ${allUnsentUsers.length} registrations via email. Email ID: ${emailResult.data.id}`);
+      
+      // TODO: Mark as sent logic commented out for testing
+      // const now = new Date();
+      // const updateResult = await User.updateMany(
+      //   { _id: { $in: userIdsToMark } },
+      //   {
+      //     $set: {
+      //       emailSent: true,
+      //       sentAt: now
+      //     }
+      //   }
+      // );
 
       return NextResponse.json({
         success: true,
-        message: 'Registrations sent successfully',
+        message: 'Registrations sent successfully (not marked as sent for testing)',
         count: allUnsentUsers.length,
         emailId: emailResult.data.id,
-        updatedRecords: updateResult.modifiedCount,
-        timestamp: timestamp
+        timestamp: timestamp,
+        note: 'Records NOT marked as sent - testing mode'
       });
     } else {
       throw new Error('Failed to send email - no email ID returned');
