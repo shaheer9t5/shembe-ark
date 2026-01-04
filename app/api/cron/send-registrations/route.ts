@@ -88,6 +88,8 @@ export async function GET(request: NextRequest) {
     const fromEmail = process.env.EMAIL_FROM || 'registrations@shembeark.co.za';
     const timestamp = new Date().toISOString();
     const dateString = timestamp.split('T')[0];
+    // Create timestamp string for filename (YYYY-MM-DD-HHMMSS)
+    const timestampString = timestamp.replace(/[:.]/g, '-').replace('T', '-').slice(0, -5);
 
     // Get CC recipients from environment variable (comma-separated)
     const ccRecipients = process.env.EMAIL_CC 
@@ -162,7 +164,7 @@ export async function GET(request: NextRequest) {
                 </h3>
                 <p style="margin: 0; color: #666; font-size: 14px; line-height: 1.5;">
                   All registration details are included in the attached CSV file:<br>
-                  <strong style="color: #171717;">registrations-${dateString}.csv</strong>
+                  <strong style="color: #171717;">registrations-${timestampString}.csv</strong>
                 </p>
               </div>
 
@@ -181,7 +183,7 @@ export async function GET(request: NextRequest) {
       `,
       attachments: [
         {
-          filename: `registrations-${dateString}.csv`,
+          filename: `registrations-${timestampString}.csv`,
           content: Buffer.from(csvData).toString('base64'),
         }
       ]

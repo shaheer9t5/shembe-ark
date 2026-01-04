@@ -141,7 +141,10 @@ export default function AdminPage() {
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
-      a.download = `datafree-connect-registrations-${new Date().toISOString().split('T')[0]}.csv`;
+      // Create timestamp string for filename (YYYY-MM-DD-HHMMSS)
+      const timestamp = new Date().toISOString();
+      const timestampString = timestamp.replace(/[:.]/g, '-').replace('T', '-').slice(0, -5);
+      a.download = `datafree-connect-registrations-${timestampString}.csv`;
       a.click();
       window.URL.revokeObjectURL(url);
     } catch (error: any) {
