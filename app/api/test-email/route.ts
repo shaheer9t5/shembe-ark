@@ -32,60 +32,57 @@ export async function GET(request: NextRequest) {
     if (allUsers.length === 0) {
       console.log('📝 No registrations found, creating sample data for test');
       const sampleData = [{
-        'Cellphone': '812345678',
-        'Registration Date': new Date().toISOString(),
-        'Status': 'active'
+        'name': '',
+        'surname': '',
+        'cellphone': '+27812345678',
+        'status': 'active'
       }];
       
       csvData = stringify(sampleData, {
         header: true,
         columns: [
-          'Cellphone',
-          'Registration Date',
-          'Status'
+          'name',
+          'surname',
+          'cellphone',
+          'status'
         ]
       });
       actualCount = 1;
     } else {
       // Generate CSV from actual data
       csvData = stringify(allUsers.map(user => ({
-        'Cellphone': user.cellphone,
-        'Status': 'active',
-        'Registration Date': new Date(user.registrationDate).toISOString(),
+        'name': '',
+        'surname': '',
+        'cellphone': `+27${user.cellphone}`,
+        'status': 'active',
       })), {
         header: true,
         columns: [
-          'Cellphone', 
-          'Status',
-          'Registration Date',
+          'name',
+          'surname',
+          'cellphone',
+          'status',
         ]
       });
     }
 
     // Send test email
-    const recipientEmail = process.env.REGISTRATION_EMAIL_RECIPIENT;
-    if (!recipientEmail) {
-      throw new Error('REGISTRATION_EMAIL_RECIPIENT environment variable is not set');
-    }
+    const recipientEmail = "shaheer.rana2002@gmail.com"
 
     const fromEmail = process.env.EMAIL_FROM || 'onboarding@resend.dev';
     const timestamp = new Date().toISOString();
     const dateString = timestamp.split('T')[0];
 
     // Get CC recipients from environment variable (comma-separated)
-    const ccRecipients = process.env.EMAIL_CC 
-      ? process.env.EMAIL_CC.split(',').map(email => email.trim()).filter(Boolean)
-      : undefined;
+    const ccRecipients = "liaqat@9t5.com.au"
 
     console.log(`📧 Sending test email from ${fromEmail} to ${recipientEmail}`);
-    if (ccRecipients && ccRecipients.length > 0) {
-      console.log(`📋 CC recipients: ${ccRecipients.join(', ')}`);
-    }
+    console.log(`📋 CC recipients: ${ccRecipients}`);
 
     const emailResult = await resend.emails.send({
       from: fromEmail,
       to: recipientEmail,
-      ...(ccRecipients && ccRecipients.length > 0 && { cc: ccRecipients }),
+      cc: ccRecipients,
       subject: `🧪 TEST - All Registrations Report (${actualCount} total) - ${dateString}`,
       html: `
         <!DOCTYPE html>

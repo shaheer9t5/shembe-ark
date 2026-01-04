@@ -124,12 +124,13 @@ export default function AdminPage() {
         return;
       }
 
-      // Format like email: Cellphone, Status, Registration Date
-      const headers = ['Cellphone', 'Status', 'Registration Date'];
+      // Format: name, surname, cellphone, status
+      const headers = ['name', 'surname', 'cellphone', 'status'];
       const csvData = unsentUsers.map((user: User) => [
-        user.cellphone, // Just the number, no +27 prefix
-        'active',
-        new Date(user.registrationDate).toISOString()
+        '', // name - blank
+        '', // surname - blank
+        `+27${user.cellphone}`, // cellphone with +27 prefix
+        'active' // status always active
       ]);
 
       const csvContent = [headers, ...csvData]
